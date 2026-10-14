@@ -4,3 +4,4 @@ __pycache__/
 .DS_Store
 # Written by Claude Code each time it loads a mod
 node_modules/
+.claude/

@@ -70,6 +70,7 @@ const mods = marketplace.plugins.map(entry => {
     title,
     '',
     `<ModHeader name=${yaml(entry.name)} />`,
+    ...(image ? ['', `![${entry.name} running in Claude Code](${image})`] : []),
     ...rest,
     '',
   ].join('\n')
