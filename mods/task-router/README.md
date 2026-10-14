@@ -1,5 +1,8 @@
 # task-router
 
+> **In testing.** task-router is not in the marketplace yet. To try it from a clone of this repository:
+> `claude --plugin-dir mods/task-router`
+
 Every task gets labeled by a cheap classifier (Haiku), dispatched to a worker subagent on the right model tier,
 and tracked in a registry, so you can see at any time what was decided, what runs, and on which model.
 

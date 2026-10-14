@@ -140,10 +140,8 @@ A smarter input bar: Linear tickets in the typeahead, live highlighting of paths
 </td>
 <td width="50%" valign="top">
 
-#### [task-router](mods/task-router)
-Routes each task to a subagent on the right model (Haiku, Sonnet or Opus) by rules you own, escalates failures one tier up, and shows every model's work in a `/route-status` sidebar. Works with Superpowers.
-
-<img src="mods/task-router/preview.gif" alt="task-router demo">
+#### Your mod here
+Built something for your own Claude Code? Share it. [CONTRIBUTING.md](CONTRIBUTING.md) walks through adding a mod and recording its demo, which needs no Claude account.
 
 </td>
 </tr>

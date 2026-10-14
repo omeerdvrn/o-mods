@@ -47,6 +47,8 @@ o-mods is a registry of mods for Claude Code: panes, sidebars, bands, status lin
 
 4. Add the mod to `README.md`: a cell in the section it fits, with its name linked to `mods/<mod>`, one or two sentences, and its `preview.gif`.
 
+   While a mod is still in testing, skip steps 3 and 4 and add an empty `mods/<mod>/.unlisted` file instead: the mod stays in the repository but out of the marketplace, the README and the site.
+
 5. Run the checks:
 
    ```

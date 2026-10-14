@@ -26,9 +26,13 @@ for (const name of folders) {
   const dir = join(root, 'mods', name)
   if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(name)) fail(`mods/${name}: folder name must be lowercase words joined by -`)
 
+  // A mod still in testing has a .unlisted file: kept out of the marketplace,
+  // the README and the site until it's ready.
+  const unlisted = existsSync(join(dir, '.unlisted'))
   const entry = listed.get(name)
-  if (!entry) fail(`mods/${name}: missing from .claude-plugin/marketplace.json`)
-  else if (entry.source !== `./mods/${name}`) fail(`marketplace.json: ${name} source should be ./mods/${name}`)
+  if (unlisted && entry) fail(`mods/${name}: has .unlisted but is in marketplace.json`)
+  else if (!unlisted && !entry) fail(`mods/${name}: missing from .claude-plugin/marketplace.json (or add a .unlisted file while it's in testing)`)
+  else if (entry && entry.source !== `./mods/${name}`) fail(`marketplace.json: ${name} source should be ./mods/${name}`)
 
   const manifestPath = join(dir, '.claude-plugin/plugin.json')
   if (!existsSync(manifestPath)) fail(`mods/${name}: missing .claude-plugin/plugin.json`)
@@ -43,7 +47,8 @@ for (const name of folders) {
   if (!existsSync(modReadme)) fail(`mods/${name}: missing README.md`)
   else if (!readFileSync(modReadme, 'utf8').startsWith(`# ${name}`)) fail(`mods/${name}/README.md: must start with "# ${name}"`)
 
-  if (!readme.includes(`[${name}](mods/${name})`)) fail(`README.md: add a row for [${name}](mods/${name}) to the mods table`)
+  if (unlisted && readme.includes(`(mods/${name})`)) fail(`README.md: ${name} is unlisted; take it out of the README`)
+  if (!unlisted && !readme.includes(`[${name}](mods/${name})`)) fail(`README.md: add [${name}](mods/${name}) to the mods`)
 }
 
 for (const name of listed.keys()) {
@@ -76,4 +81,5 @@ if (errors.length) {
   console.error(`✘ ${errors.length} problem${errors.length === 1 ? '' : 's'}:\n` + errors.map(error => `  - ${error}`).join('\n'))
   process.exit(1)
 }
-console.log(`✓ ${folders.length} mods, marketplace and README agree; no secrets found`)
+const testing = folders.filter(name => existsSync(join(root, 'mods', name, '.unlisted')))
+console.log(`✓ ${folders.length - testing.length} mods listed${testing.length ? `, ${testing.length} in testing (${testing.join(', ')})` : ''}; marketplace and README agree; no secrets found`)
