@@ -85,6 +85,21 @@ claude --plugin-dir mods/<mod>
 
 The mod API is in early access. Mods need Claude Code 2.1.29x or later.
 
+## Record a demo
+
+Every mod should show itself running in the Claude Code CLI. Demos are recorded with [VHS](https://github.com/charmbracelet/vhs), so anyone can re-record one after a change:
+
+```
+brew install vhs
+vhs mods/<mod>/demo.tape
+```
+
+`demo.tape` writes `mods/<mod>/preview.gif`, which the site shows on the mod's card and page. Copy the tape of a mod close to yours and change the steps. Keep demos short (10–25 seconds), 1200×650, and record in a session with only your mod loaded:
+
+- Start Claude with `--plugin-dir mods/<mod>` and `CLAUDE_CONFIG_DIR` pointed at a throwaway config, so other plugins stay out of frame.
+- Keep the welcome banner out of the GIF: start under `Hide`, run `/clear`, then `Show`.
+- Use example data only. No real tickets, repos, names or org details on screen.
+
 ## Preview the site
 
 ```
