@@ -2,7 +2,7 @@
 
 The input bar, smarter.
 
-![snippets running in Claude Code](preview.gif)
+![Typing a prompt, ticket and file names are highlighted. The text ;;plan expands into a full planning request before it is sent.](preview.gif)
 
 - **Ticket typeahead:** type a ticket id (`ENG-`, `ENG-34`) and your Linear issues show in the typeahead with
   their titles and status; take one with Tab or Enter. Your open issues, kept fresh every ten minutes.

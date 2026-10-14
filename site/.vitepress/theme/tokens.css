@@ -1,0 +1,151 @@
+/* o-mods design tokens. Light is default; VitePress adds .dark on <html>.
+   Pixel font: Pixelify Sans (SIL OFL 1.1), self-hosted, DISPLAY ONLY (>= 20px, never body). */
+
+@font-face {
+  font-family: 'Pixelify Sans';
+  src: url('/fonts/pixelify-sans-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Pixelify Sans';
+  src: url('/fonts/pixelify-sans-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Fonts */
+  --font-display: 'Pixelify Sans', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Type scale (display font only from --text-xl up; never below 20px) */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+  --text-3xl: clamp(2.25rem, 1.6rem + 3vw, 3.5rem);
+  --text-4xl: clamp(2.75rem, 1.8rem + 4.5vw, 4.75rem);
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-body: 1.6;
+  --display-min: 1.25rem; /* 20px floor for the pixel font */
+
+  /* Spacing (4px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --gutter: 16px;
+  --content-max: 1152px;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  /* Targets */
+  --tap-min: 44px;
+
+  /* Light theme: warm paper and ink */
+  --paper: #faf7f2;
+  --paper-alt: #f3eee6;
+  --paper-soft: #ece5da;
+  --ink: #1f1b16;
+  --ink-muted: #5c534a;
+  --ink-faint: #6b6157;
+  --accent: #d97757;          /* fills, crab, decoration */
+  --accent-hover: #c9653f;
+  --accent-ink: #a43f1c;      /* orange as text/links/ring on paper */
+  --on-accent: #1a1714;       /* text on --accent fills */
+  --accent-soft: rgba(217, 119, 87, 0.14);
+  --border: #d9d0c3;          /* decorative dividers */
+  --border-strong: #8a7e72;   /* inputs, buttons: >= 3:1 */
+  --focus-ring: #a43f1c;
+  --success: #196a31;
+  --warning: #8a5a00;
+  --error: #b3261e;
+
+  /* Terminal surface: dark in both themes */
+  --term-bg: #1a1714;
+  --term-chrome: #2a2520;
+  --term-border: #1a1714;
+  --term-text: #e8e0d6;
+  --term-dim: #a39a90;
+  --term-title: #b8aea3;
+  --term-accent: #f0a083;
+  --term-success: #7fd18b;
+  --term-warning: #f0c060;
+  --term-error: #ff8f85;
+  --term-dot-1: #ff8f85;
+  --term-dot-2: #f0c060;
+  --term-dot-3: #7fd18b;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(60, 40, 20, 0.08);
+  --shadow-md: 0 2px 4px rgba(60, 40, 20, 0.08), 0 8px 24px rgba(60, 40, 20, 0.12);
+  --shadow-term: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 4px 8px rgba(60, 40, 20, 0.14), 0 16px 40px rgba(60, 40, 20, 0.22);
+  --shadow-pixel: 4px 4px 0 var(--ink); /* hard "pixel" offset for cards on hover */
+
+  /* VitePress mapping */
+  --vp-c-bg: var(--paper);
+  --vp-c-bg-alt: var(--paper-alt);
+  --vp-c-bg-soft: var(--paper-soft);
+  --vp-c-bg-elv: var(--paper);
+  --vp-c-text-1: var(--ink);
+  --vp-c-text-2: var(--ink-muted);
+  --vp-c-text-3: var(--ink-faint);
+  --vp-c-divider: var(--border);
+  --vp-c-gutter: var(--border);
+  --vp-c-brand-1: var(--accent-ink);
+  --vp-c-brand-2: var(--accent-hover);
+  --vp-c-brand-3: var(--accent);
+  --vp-c-brand-soft: var(--accent-soft);
+  --vp-font-family-base: var(--font-sans);
+  --vp-font-family-mono: var(--font-mono);
+}
+
+.dark {
+  --paper: #141210;
+  --paper-alt: #0f0d0c;
+  --paper-soft: #1d1a17;
+  --ink: #f1ebe3;
+  --ink-muted: #b3a99e;
+  --ink-faint: #9c9288;
+  --accent: #d97757;
+  --accent-hover: #e8916f;
+  --accent-ink: #ee9a7a;
+  --on-accent: #1a1714;
+  --accent-soft: rgba(238, 154, 122, 0.16);
+  --border: #3a342e;
+  --border-strong: #80766b;
+  --focus-ring: #ee9a7a;
+  --success: #6fcf84;
+  --warning: #e8b04a;
+  --error: #ff8a80;
+
+  --term-bg: #0c0b0a;
+  --term-chrome: #1d1a17;
+  --term-border: #4a433b; /* terminal is close to page dark: a light edge separates it */
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-term: 0 0 0 1px rgba(238, 154, 122, 0.08), 0 4px 8px rgba(0, 0, 0, 0.5), 0 16px 40px rgba(0, 0, 0, 0.6);
+  --shadow-pixel: 4px 4px 0 var(--accent);
+}
+
+/* High-contrast preference: stronger borders and ink */
+@media (prefers-contrast: more) {
+  :root, .dark { --border: var(--border-strong); --ink-muted: var(--ink); --ink-faint: var(--ink); }
+}

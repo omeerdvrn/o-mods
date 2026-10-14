@@ -2,7 +2,7 @@
 
 Color themes for the Claude Code interface, applied automatically when a session starts.
 
-![themes running in Claude Code](preview.gif)
+![Typing /themes changes the colors of the whole interface, from Catppuccin to Dracula, Gruvbox, Synthwave and Nord. The footer names each theme.](preview.gif)
 
 Themes: Catppuccin Mocha, Macchiato, Frappé and Latte, Tokyo Night, Gruvbox Dark, Nord, Dracula, Rosé Pine,
 Everforest, Kanagawa, One Dark, Solarized Dark, Synthwave '84 (pairs with night-drive).

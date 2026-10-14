@@ -1,7 +1,20 @@
 {
   "turns": [
-    { "prompt": "what's in this repo", "steps": [
-      { "tool": "Bash", "input": { "command": "ls", "description": "List files" } },
-      { "text": "A small **Next.js** app: pages in `src/app`, shared UI in `src/components`, and the checkout flow in `src/checkout`. Tests live in `tests/`." } ] }
-  ]
+    {
+      "prompt": "what's in this repo",
+      "steps": [
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "ls",
+            "description": "List files"
+          }
+        },
+        {
+          "text": "A small **Next.js** app: pages in `src/app`, shared UI in `src/components`, and the checkout flow in `src/checkout`. Tests live in `tests/`."
+        }
+      ]
+    }
+  ],
+  "poster": 8.56
 }
