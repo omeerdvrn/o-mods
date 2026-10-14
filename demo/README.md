@@ -4,6 +4,7 @@ Every mod's `preview.gif` (and the `preview.mp4` the site plays) is recorded in 
 
 ```
 brew install vhs gifsicle ffmpeg
+brew install --cask kitty           # only for mods that draw pictures
 demo/record.sh heat                 # one mod
 demo/record.sh heat themes linear   # several
 ```
@@ -20,6 +21,7 @@ demo/record.sh heat themes linear   # several
 | `demo/mock-api.mjs` | The mock Messages API |
 | `demo/style.tape`, `demo/session.tape` | Shared look, and the clean shell every demo starts in |
 | `demo/record.sh` | Sets up a throwaway config, starts the mock, runs VHS, writes the GIF and MP4 |
+| `demo/kitty-tape.mjs`, `demo/kitty.conf` | Plays a tape in a real kitty window instead, for mods that draw pictures |
 
 ## Isolation
 
@@ -66,6 +68,21 @@ Sleep 3s
   Source demo/session.tape
   ```
 
+## Mods that draw pictures
+
+Claude Code draws pictures (persona's crab, huh's typeset page, snippets' image thumbnails) with kitty's Unicode placeholders, which VHS's terminal cannot show. Start such a tape with
+
+```
+# recorder: kitty
+```
+
+and `record.sh` plays it in a real kitty window and captures that window, frame by frame, with `screencapture`. It understands the same tape commands the demos use. Two differences:
+
+- **The window comes to the front** while the tape is shown, because kitty stops drawing a covered window. Leave it alone for the minute it takes: keystrokes you type go into the demo.
+- **Wait for pictures** rather than sleeping: kitty shows them in the screen text as U+10EEEE placeholders, so `Wait+Screen@60s /\uDBFB\uDEEE/` waits until one is drawn. `Screenshot <name>` saves the screen text to the recording's work folder, for debugging a tape.
+
+kitty's cell is 17x33 device pixels on a Retina screen with `demo/kitty.conf`; a mod that sizes pictures by cell (huh's `cellSize`) should be set to that.
+
 ## demo.json
 
 ```json
@@ -89,12 +106,13 @@ Sleep 3s
 - `side` answers model calls a mod makes itself (requests without tools), matched against their text.
 - `{{HOME}}` and `{{PROJECT}}` are replaced with the throwaway home and project, so tool inputs can use absolute paths without containing yours.
 - `"pause": <ms>` on a step waits before it; `thinkDelay` and `wordDelay` set the pace.
+- `headers` are added to every reply. Claude Code reads plan limits from `anthropic-ratelimit-unified-5h-utilization` (0 to 1), `…-5h-reset` (Unix seconds) and the same for `7d`; `{{in:2h13m}}` is a time that far from now. It reports them to mods only for plan sign-ins, so a tape that needs them signs in with a fake plan token, sent only to the mock: `unset ANTHROPIC_API_KEY; export CLAUDE_CODE_OAUTH_TOKEN=sk-ant-oat01-fake-demo-token`. See `mods/usage-bar`.
 
 ## Fake services
 
 A mod that talks to an outside service gets a local fake that answers in the real shape, never the real service:
 
-- **MCP servers** (Linear): a small stdio server in `mods/<mod>/demo/`, registered while hidden with `claude mcp add` into the throwaway config. See `mods/linear/demo/linear-mcp.mjs`.
+- **MCP servers** (Linear): a small stdio server in `mods/<mod>/demo/`, registered while hidden with `claude mcp add` into the throwaway config. See `mods/linear/demo/linear-mcp.mjs`, which `mods/snippets` reuses. A mod's own MCP calls need the tool in `demo/config/settings.json`'s `permissions.allow`, or a permission prompt takes the keystrokes.
 - **CLIs** (`gh`): a script in `mods/<mod>/demo/bin/` put first on `PATH`. It handles only the commands the demo uses and exits with an error for anything else. See `mods/pr-status/demo/bin/gh`.
 
 ## Before you open a pull request

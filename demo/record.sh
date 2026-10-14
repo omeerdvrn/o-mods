@@ -54,7 +54,10 @@ for mod in "$@"; do
   mock=$!
   sleep 0.5
   echo "recording $mod…"
-  (cd "$root" && OMODS_ROOT="$root" OMODS_PORT="$port" OMODS_CONFIG="$config" OMODS_PROJECT="$project" vhs "mods/$mod/demo.tape" >"$config/vhs.log" 2>&1) || echo "  ✘ VHS failed for $mod: see $config/vhs.log" >&2
+  # Mods that draw pictures record in a real kitty window; the rest in VHS.
+  recorder=(vhs)
+  head -1 "$dir/demo.tape" | grep -q 'recorder: kitty' && recorder=(node "$root/demo/kitty-tape.mjs")
+  (cd "$root" && OMODS_ROOT="$root" OMODS_PORT="$port" OMODS_CONFIG="$config" OMODS_PROJECT="$project" "${recorder[@]}" "mods/$mod/demo.tape" >"$config/record.log" 2>&1) || echo "  ✘ recording failed for $mod: see $config/record.log" >&2
   kill $mock 2>/dev/null; wait $mock 2>/dev/null || true
   [[ -s "$dir/preview.gif" ]] || { echo "  ✘ no GIF for $mod" >&2; continue; }
   # Smaller GIF for READMEs, and an MP4 the site plays (a fraction of the size).
