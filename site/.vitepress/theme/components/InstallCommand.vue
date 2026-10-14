@@ -48,11 +48,13 @@ const onFailed = () => {
         <span class="term-spacer" aria-hidden="true" />
       </div>
       <div class="install-body">
-        <div ref="codeEl" class="install-code">
-          <template v-for="(line, i) in lines" :key="line">
-            <p v-if="steps" class="cmd-caption"># {{ captions[i] }}</p>
-            <p class="cmd"><span class="prompt" aria-hidden="true">$ </span><code>{{ line }}</code></p>
-          </template>
+        <div ref="codeEl" class="install-code" tabindex="0" role="region" :aria-label="strings.installCommandsName">
+          <ol class="steps">
+            <li v-for="(line, i) in lines" :key="line">
+              <p v-if="steps" class="cmd-caption"><span aria-hidden="true"># </span>{{ captions[i] }}</p>
+              <p class="cmd"><span class="prompt" aria-hidden="true">$ </span><code>{{ line }}</code></p>
+            </li>
+          </ol>
         </div>
         <div class="install-actions">
           <CopyButton :text="text" :label="strings.copyName" @failed="onFailed" />
@@ -60,6 +62,7 @@ const onFailed = () => {
       </div>
     </div>
     <p v-if="note" class="install-note" role="status">{{ note }}</p>
+    <p class="install-after">{{ strings.installAfter }}</p>
     <p v-if="firstTime" class="install-first">
       <a :href="withBase('/guide/install')">{{ strings.firstTime }}</a>
     </p>
@@ -79,15 +82,20 @@ const onFailed = () => {
 .term-spacer { flex: 0 0 42px; }
 .term-title { flex: 1; text-align: center; font: var(--text-xs)/1 var(--font-mono); color: var(--term-title); }
 .install-body { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-4); }
-.install-code { min-width: 0; font: var(--text-sm)/1.6 var(--font-mono); color: var(--term-text); }
+.install-code { min-width: 0; overflow-x: auto; font: 0.8125rem/1.6 var(--font-mono); color: var(--term-text); }
 .install-code p { margin: 0; }
-.cmd-caption { color: var(--term-dim); margin-top: var(--space-2) !important; }
-.cmd-caption:first-child { margin-top: 0 !important; }
-.cmd { white-space: pre-wrap; overflow-wrap: anywhere; }
+.steps { margin: 0; padding: 0; list-style: none; }
+.steps li { margin: 0; padding: 0; }
+.steps li + li .cmd-caption { margin-top: var(--space-2) !important; }
+.cmd-caption { color: var(--term-dim); }
+/* Never break a command mid-word: it scrolls inside the block instead. */
+.cmd { white-space: pre; width: max-content; min-width: 100%; }
 .prompt { color: var(--term-accent); user-select: none; }
+.install-code:focus-visible { outline-offset: -2px; }
 .install-code code { padding: 0; background: none; color: inherit; font: inherit; }
 .install-actions { display: flex; justify-content: flex-end; }
 .install-note { margin: var(--space-2) 0 0; font: var(--text-sm)/var(--leading-body) var(--font-sans); color: var(--error); }
+.install-after { margin: var(--space-3) 0 0; font: var(--text-sm)/var(--leading-body) var(--font-sans); color: var(--ink-muted); }
 .install-first { margin: var(--space-3) 0 0; font: var(--text-sm)/1.4 var(--font-sans); }
 .install-first a { display: inline-flex; align-items: center; min-height: var(--tap-min); color: var(--accent-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 @media (min-width: 768px) {

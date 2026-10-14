@@ -27,6 +27,24 @@ const GIF_LINE = /\n!\[([^\]]*)\]\(preview\.gif\)\n/
 const linkFiles = (markdown, name) =>
   markdown.replace(/\]\((?!https?:|#|mailto:)([^)\s]+)\)/g, (_, path) => `](${REPO_URL}/blob/main/mods/${name}/${path.replace(/^\.\//, '')})`)
 
+// The layout draws its own Install block, so the README's "## Install" section
+// loses its install commands. Anything else in it (a mod-specific note, like
+// usage-bar's statusLine warning) stays under "## Before you install".
+const trimInstall = markdown => {
+  const lines = markdown.split('\n')
+  const start = lines.findIndex(l => /^## Install\s*$/.test(l))
+  if (start === -1) return markdown
+  let end = lines.findIndex((l, i) => i > start && /^## /.test(l))
+  if (end === -1) end = lines.length
+  const body = lines.slice(start + 1, end).join('\n')
+    .replace(/```[^\n]*\n[^`]*claude plugin[^`]*```/g, '')
+    .replace(/^In a terminal, run:\s*$/gm, '')
+    .replace(/^The first command adds the marketplace[^\n]*$/gm, '')
+    .trim()
+  const kept = body ? ['## Before you install', '', body, ''] : []
+  return [...lines.slice(0, start), ...kept, ...lines.slice(end)].join('\n')
+}
+
 const yaml = value => JSON.stringify(value)
 
 const copyPublic = (from, to) => {
@@ -62,11 +80,12 @@ const mods = marketplace.plugins.map(entry => {
   // The page: the README's body under the mod layout, which draws the title,
   // pitch, demo and install itself. The README's title and its demo GIF line
   // (for GitHub) are left out.
-  const body = linkFiles(readme.replace(GIF_LINE, '\n'), entry.name).replace(/^# .*\n/, '')
+  const body = trimInstall(linkFiles(readme.replace(GIF_LINE, '\n'), entry.name)).replace(/^# .*\n/, '')
   const page = [
     '---',
     `title: ${yaml(entry.name)}`,
     `description: ${yaml(`${mod.pitch} Install ${entry.name} for Claude Code with one command.`)}`,
+    `pitch: ${yaml(mod.pitch)}`,
     'layout: mod',
     `mod: ${yaml(entry.name)}`,
     'outline: [2, 3]',

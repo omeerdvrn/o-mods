@@ -1,12 +1,21 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, ref } from 'vue'
 import { withBase } from 'vitepress'
 import DemoPlayer from './DemoPlayer.vue'
 import CopyButton from './CopyButton.vue'
 import { copy as strings, fill } from '../copy'
 import type { Mod } from '../mods'
 
-const props = defineProps<{ mod: Mod }>()
+const props = withDefaults(defineProps<{ mod: Mod; showCategory?: boolean }>(), { showCategory: true })
+const failed = ref(false)
+let failTimer: ReturnType<typeof setTimeout> | undefined
+const onFailed = () => {
+  failed.value = true
+  clearTimeout(failTimer)
+  failTimer = setTimeout(() => (failed.value = false), 10000)
+}
+const onCopied = () => { failed.value = false }
+onBeforeUnmount(() => clearTimeout(failTimer))
 const player = ref<InstanceType<typeof DemoPlayer>>()
 const category = computed(() => strings.categories[props.mod.category]?.name ?? props.mod.category)
 
@@ -45,9 +54,20 @@ const onFocusOut = (e: FocusEvent) => {
     </h3>
     <p class="card-pitch" aria-hidden="true">{{ mod.pitch }}</p>
     <div class="card-foot">
-      <span class="card-cat">{{ category }}</span>
-      <CopyButton :text="mod.install.join('\n')" :label="fill(strings.copyNameCard, { mod: mod.name })" />
+      <span v-if="showCategory" class="card-cat">{{ category }}</span>
+      <CopyButton
+        :text="mod.install.join('\n')"
+        :label="fill(strings.copyNameCard, { mod: mod.name })"
+        :failed-label="strings.copyFailedCard"
+        :failed-note="strings.copyFailedCardNote"
+        @failed="onFailed"
+        @copied="onCopied"
+      />
     </div>
+    <p v-if="failed" class="card-fail">
+      {{ strings.copyFailedCardVisible }}
+      <a :href="withBase(`/mods/${mod.name}`)">{{ strings.copyFailedCardLink }}</a>
+    </p>
   </article>
 </template>
 
@@ -69,10 +89,12 @@ const onFocusOut = (e: FocusEvent) => {
   flex: 1; margin: 0; font: var(--text-base)/var(--leading-body) var(--font-sans); color: var(--ink-muted);
   display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
 }
-.card-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.card-foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-3); }
 .card-cat { font: var(--text-sm)/1.4 var(--font-sans); color: var(--ink-faint); }
+.card-foot:not(:has(.card-cat)) { justify-content: flex-end; }
+.card-fail { position: relative; z-index: 2; margin: calc(var(--space-1) * -1) 0 0; font: var(--text-sm)/var(--leading-body) var(--font-sans); color: var(--error); }
+.card-fail a { color: var(--accent-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 .card :deep(.copy-wrap), .card :deep(.demo-btn) { position: relative; z-index: 2; }
-.card :deep(.demo-btn) { position: absolute; }
 @media (prefers-reduced-motion: reduce) {
   .card { transition: none; }
   .card:hover, .card:focus-within { transform: none; }
