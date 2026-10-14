@@ -1,0 +1,26 @@
+name: Linked issue
+
+# Every pull request starts from an issue: its description must say which one
+# ("Closes #12", "Fixes #12" or "Refs #12"). The maintainer's own PRs are exempt.
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  linked-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: The description links an issue
+        if: github.event.pull_request.user.login != github.repository_owner
+        env:
+          BODY: ${{ github.event.pull_request.body }}
+        run: |
+          if printf '%s' "$BODY" | grep -Eiq '(close[sd]?|fix(e[sd])?|resolve[sd]?|refs?)[[:space:]]*:?[[:space:]]+(https://github\.com/[^/]+/[^/]+/issues/|#)[0-9]+'; then
+            echo "Linked issue found."
+          else
+            echo "::error::Link the issue this pull request is for: add \"Closes #<number>\" to its description. No issue yet? Open one first: https://github.com/${GITHUB_REPOSITORY}/issues/new/choose"
+            exit 1
+          fi

@@ -2,9 +2,16 @@
 
 o-mods is a registry of mods for Claude Code: panes, sidebars, bands, status lines and hooks that run inside your sessions. New mods and improvements to existing ones are welcome.
 
+## How changes get in
+
+1. **Open an issue first.** A [mod idea](https://github.com/omeerdvrn/o-mods/issues/new?template=mod-idea.yml) for a new mod, a [bug](https://github.com/omeerdvrn/o-mods/issues/new?template=bug.yml) for something broken, or a blank issue for anything else. Agree on the approach there before you write code.
+2. **Fork, branch, and open a pull request** that says `Closes #<issue>` in its description. A check fails until it does.
+3. **CI runs** the registry check and builds the site.
+4. **The maintainer reviews it.** Nothing reaches `main` without that approval; there are no direct pushes.
+
 ## Ways to help
 
-- **Build a new mod.** Open a [mod idea](https://github.com/omeerdvrn/o-mods/issues/new?template=mod-idea.yml) issue first if you want feedback, or go straight to a pull request.
+- **Build a new mod.** Start with a [mod idea](https://github.com/omeerdvrn/o-mods/issues/new?template=mod-idea.yml) issue.
 - **Improve a mod.** Fix a bug, add an option, support another terminal or forge. Keep the mod's existing style.
 - **Report a bug.** Use the [bug template](https://github.com/omeerdvrn/o-mods/issues/new?template=bug.yml) and include `claude --version`.
 - **Improve the site.** The showcase lives in `site/` (VitePress).
@@ -58,7 +65,7 @@ o-mods is a registry of mods for Claude Code: panes, sidebars, bands, status lin
    claude plugin test mods/<mod>
    ```
 
-6. Open a pull request. CI runs the registry check and builds the site.
+6. Open a pull request with `Closes #<issue>` in its description. CI runs the registry check and builds the site, and the maintainer reviews it.
 
 ## Write the README
 
