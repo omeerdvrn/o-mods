@@ -2,6 +2,8 @@
 
 A Claude Code mod that shows the Linear issues assigned to you in a sidebar. Press **Start** on an issue to create a git worktree for it and have Claude implement it there.
 
+![linear running in Claude Code](preview.gif)
+
 ```
 My issues                               15:47 ⟳
 

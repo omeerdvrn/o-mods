@@ -3,6 +3,8 @@
 Every task gets labeled by a cheap classifier (Haiku), dispatched to a worker subagent on the right model tier,
 and tracked in a registry, so you can see at any time what was decided, what runs, and on which model.
 
+![task-router running in Claude Code](preview.gif)
+
 ## Use
 
 1. `/route init` in a project: writes `.claude/routing/rules.yaml` (yours to refine) and the execution rule into

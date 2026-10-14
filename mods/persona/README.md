@@ -2,6 +2,8 @@
 
 Sets the role Claude works for on this machine. Each persona adds a role prompt to the system prompt and denies edits and shell commands outside its scope. A denied call never runs. Claude is told to explain the change that's needed instead of working around the block.
 
+![persona running in Claude Code](preview.gif)
+
 ## Personas
 
 | Id | Name | May edit | Blocked |

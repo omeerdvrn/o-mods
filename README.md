@@ -1,67 +1,177 @@
+<div align="center">
+
 # o-mods
 
-Mods for Claude Code: panes, sidebars and hooks that run inside your Claude Code sessions. This repository is a plugin marketplace, so you can install each mod with one command.
+**Mods for Claude Code.** Sidebars, status bars, animations and hooks that run inside your Claude Code sessions.<br>
+Open source. Each one installs with one command.
 
-**Browse them with previews at [omeerdvrn.github.io/o-mods](https://omeerdvrn.github.io/o-mods/).**
+[**Browse the mods →**](https://omeerdvrn.github.io/o-mods/) &nbsp;·&nbsp; [Install](#install) &nbsp;·&nbsp; [Build your own](CONTRIBUTING.md)
 
-## Mods
+<img src="mods/heat/preview.gif" alt="The heat mod: a fire burst rises above the prompt as you send prompts quickly" width="820">
 
-| Mod | What it does |
-| --- | --- |
-| [faah](mods/faah) | Meme sounds: **FAAAH** when tests fail, **anime wow** when they pass, **bruh** when Claude asks you something. `/faah add` turns on more events (failed builds, rejected pushes, denials…); `/faah sound` gives any event another clip or your own file. |
-| [heat](mods/heat) | NBA-Jam-style heat tracker. Prompts and tool calls heat you up, idle time cools you down, and a fire burst rises above the prompt once you're hot. |
-| [linear](mods/linear) | Shows your assigned Linear issues in a sidebar. **Start** creates a git worktree for an issue and has Claude implement it. |
-| [persona](mods/persona) | `/persona ui-ux` (or backend, dev, qa, docs, pm) sets the role Claude works for on this machine. Edits and shell commands outside the role are denied. The role shows under the prompt, with the Claude crab dressed for it in terminals that show pictures. |
-| [pr-status](mods/pr-status) | Shows the current branch's PR and its CI checks (passed, running, queued, failed) above the prompt, live. `/pr-status 123` pins any PR instead. Detects GitHub, GitLab, Gitea/Forgejo, Bitbucket and Azure DevOps. While checks fail, the empty input bar suggests fixing them (Tab to take). |
-| [themes](mods/themes) | Color themes for the Claude UI: Catppuccin (Mocha, Macchiato, Frappé, Latte), Tokyo Night, Gruvbox, Nord, Dracula, Rosé Pine, Everforest, Kanagawa, One Dark, Solarized. Each new session opens in the next theme; `/themes <name>` switches, `/themes pin <name>` uses one everywhere, `/themes off` restores yours. |
-| [task-router](mods/task-router) | Routes every task to a worker subagent on the right model tier (Haiku, Sonnet, Opus) by rules in `.claude/routing/rules.yaml`, tracks it in a registry, escalates failures one tier up, and shows each model as a Claude crab in a `/route-status` sidebar. Works with Superpowers: it plans, the router executes. |
-| [scenes](mods/scenes) | Animated pixel scenes above the prompt while Claude works, a random one each turn: night drive, rainy window, fish tank, space flight, lo-fi room, campfire, ocean sunset, matrix rain, and weather that follows your 5-hour usage. Confetti when tests pass, a rocket on push, and a companion crab that acts out what Claude does. `/scenes`. Drawn, no images. |
-| [huh](mods/huh) | `/huh` opens Claude's last answer in the sidebar, rewritten by Claude to be easy to read: a short summary first, clear sections, lists, every fact and code block kept. The original is one click away. |
-| [snippets](mods/snippets) | The input bar, smarter: your Linear tickets in the typeahead as you type an id, live highlighting (tickets, paths, @mentions, and secrets in red before you send them), `;;snippets` that expand as you type (`;;mmi`, `;;plan`, `;;review`…), and small previews of pasted images above the input. `/snippets` to manage them. |
-| [usage-bar](mods/usage-bar) | Shows your 5-hour and weekly plan limits (used or remaining, `/usage-bar`), the session's git branch or worktree, the model, context use and cost under the prompt. |
-| [usage-stats](mods/usage-stats) | `/usage-stats` opens a receipt of your Claude Code usage on this machine: total tokens, prompts, sessions and issues closed, daily activity, and tokens by project and model. |
+</div>
 
-## Install a mod
-
-In a terminal, run:
+## Install
 
 ```
 claude plugin marketplace add omeerdvrn/o-mods
-claude plugin install <mod>@o-mods
+claude plugin install heat@o-mods
 ```
 
-For example:
+Run these in a terminal. The first line is needed only once; then install any mod by its name. Mods load in every session, including the desktop app's Code tab. Run `/reload-plugins` in a session that is already open.
+
+Mods need Claude Code 2.1.29x or later (`claude --version`; `claude update`).
+
+## The mods
+
+Every demo below is the real mod running in the Claude Code CLI, with example data.
+
+### For fun
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+#### [heat](mods/heat)
+NBA-Jam-style heat. Quick prompts and tool calls heat you up, idle time cools you down, and once you're hot a fire burst rises above the prompt.
+
+<img src="mods/heat/preview.gif" alt="heat demo">
+
+</td>
+<td width="50%" valign="top">
+
+#### [scenes](mods/scenes)
+Animated pixel scenes above the prompt while Claude works: night drive, fish tank, campfire, matrix rain and more. Confetti when tests pass, and a crab that acts out what Claude does.
+
+<img src="mods/scenes/preview.gif" alt="scenes demo">
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+#### [themes](mods/themes)
+Color themes for the Claude UI: Catppuccin, Tokyo Night, Gruvbox, Nord, Dracula, Rosé Pine and more. Each new session opens in the next one, so sessions are easy to tell apart.
+
+<img src="mods/themes/preview.gif" alt="themes demo">
+
+</td>
+<td width="50%" valign="top">
+
+#### [faah](mods/faah)
+Meme sounds on events: **FAAAH** when tests fail, **anime wow** when they pass, **bruh** when Claude asks you something. Add more events, or your own clips. *(The demo is silent; your terminal won't be.)*
+
+<img src="mods/faah/preview.gif" alt="faah demo">
+
+</td>
+</tr>
+</table>
+
+### Know where you stand
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+#### [usage-bar](mods/usage-bar)
+Your 5-hour and weekly plan limits under the prompt, with when they reset, next to the branch, the model, context use and cost.
+
+<img src="mods/usage-bar/preview.gif" alt="usage-bar demo">
+
+</td>
+<td width="50%" valign="top">
+
+#### [pr-status](mods/pr-status)
+The current branch's pull request and its CI checks, live above the prompt. When a check fails, the input suggests fixing it: press Tab. GitHub, GitLab, Gitea, Bitbucket and Azure DevOps.
+
+<img src="mods/pr-status/preview.gif" alt="pr-status demo">
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+#### [usage-stats](mods/usage-stats)
+`/usage-stats` opens a receipt of your Claude Code usage on this machine: tokens, prompts, sessions, issues closed, daily activity, and tokens by project and model.
+
+<img src="mods/usage-stats/preview.gif" alt="usage-stats demo">
+
+</td>
+<td width="50%" valign="top">
+
+#### [persona](mods/persona)
+`/persona ui-ux` (or backend, qa, docs, pm…) sets the role Claude works in. Edits outside the role are blocked, and the Claude crab under the prompt dresses for the part.
+
+<img src="mods/persona/preview.gif" alt="persona demo">
+
+</td>
+</tr>
+</table>
+
+### Work faster
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+#### [linear](mods/linear)
+Your assigned Linear issues in a sidebar, grouped by status. **Start** makes a git worktree for an issue and has Claude implement it.
+
+<img src="mods/linear/preview.gif" alt="linear demo">
+
+</td>
+<td width="50%" valign="top">
+
+#### [snippets](mods/snippets)
+A smarter input bar: Linear tickets in the typeahead, live highlighting of paths, tickets and @mentions, secrets flagged in red before you send them, and `;;snippets` that expand as you type.
+
+<img src="mods/snippets/preview.gif" alt="snippets demo">
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+#### [huh](mods/huh)
+`/huh` opens Claude's last answer in the sidebar, rewritten to be easy to read: a short summary first, clear sections, every fact and code block kept. In kitty, Ghostty, WezTerm or iTerm2 it's typeset like a web page.
+
+<img src="mods/huh/preview.gif" alt="huh demo">
+
+</td>
+<td width="50%" valign="top">
+
+#### [task-router](mods/task-router)
+Routes each task to a subagent on the right model (Haiku, Sonnet or Opus) by rules you own, escalates failures one tier up, and shows every model's work in a `/route-status` sidebar. Works with Superpowers.
+
+<img src="mods/task-router/preview.gif" alt="task-router demo">
+
+</td>
+</tr>
+</table>
+
+Each mod's page has its commands, settings and requirements: click its name, or [browse them on the site](https://omeerdvrn.github.io/o-mods/).
+
+## Update or remove
 
 ```
-claude plugin marketplace add omeerdvrn/o-mods
-claude plugin install linear@o-mods
+claude plugin update <mod>
+claude plugin uninstall <mod>
 ```
 
-The first command adds the marketplace and is needed only once. Mods install at user scope, so they load in every session, including the desktop app's Code tab; add `--scope project` to install one for the current repository only. Run `/reload-plugins` in any open session to load it there.
+Then `/reload-plugins` in any open session. Settings: `/plugin`.
 
-Each mod's README lists what it needs and its settings, which you can change with `/plugin`.
+## Build a mod
 
-To get updates, run `claude plugin update <mod>`, then `/reload-plugins`.
-
-## Repository layout
+Mods are Claude Code plugins with a hooks module: they can draw panes, sidebars and bands, add slash commands, and react to prompts and tool calls. New mods and improvements are welcome. [CONTRIBUTING.md](CONTRIBUTING.md) covers adding one, developing it against a local clone, and recording its demo, which runs against a local mock of the Claude API so it needs no account.
 
 ```
 o-mods/
-├── .claude-plugin/
-│   └── marketplace.json   # lists every mod in this repository
-└── mods/
-    └── <mod>/
-        ├── .claude-plugin/plugin.json
-        ├── hooks/          # hooks.json and the hooks module
-        ├── types/          # the mod's state contract
-        ├── tests/
-        └── README.md
+├── .claude-plugin/marketplace.json   # every mod in the marketplace
+├── mods/<mod>/                       # one folder per mod: plugin, hooks, tests, demo, README
+├── demo/                             # the demo recorder and mock API
+└── site/                             # the showcase site, built from the mods' READMEs
 ```
-
-## Contribute
-
-New mods and improvements are welcome. [CONTRIBUTING.md](CONTRIBUTING.md) covers adding a mod, writing its README (which becomes its page on the site), developing against a local clone, and recording a demo GIF.
 
 ## License
 
-[MIT](LICENSE). Not affiliated with Anthropic.
+[MIT](LICENSE). A community project, not affiliated with Anthropic.

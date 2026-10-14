@@ -2,6 +2,8 @@
 
 The input bar, smarter.
 
+![snippets running in Claude Code](preview.gif)
+
 - **Ticket typeahead:** type a ticket id (`ENG-`, `ENG-34`) and your Linear issues show in the typeahead with
   their titles and status; take one with Tab or Enter. Your open issues, kept fresh every ten minutes.
 - **Live highlighting** as you type: your tickets bold in blue, other ticket ids in cyan, file paths in green,

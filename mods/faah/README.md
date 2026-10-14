@@ -2,6 +2,8 @@
 
 Meme sounds when things happen. Out of the box:
 
+![faah running in Claude Code](preview.gif)
+
 | When | Sound |
 | --- | --- |
 | a test run fails | **FAAAH** |
