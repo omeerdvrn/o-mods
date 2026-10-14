@@ -45,7 +45,7 @@ o-mods is a registry of mods for Claude Code: panes, sidebars, bands, status lin
    { "name": "<mod>", "source": "./mods/<mod>", "description": "<one line>" }
    ```
 
-4. Add a row to the table in `README.md`.
+4. Add the mod to `README.md`: a cell in the section it fits, with its name linked to `mods/<mod>`, one or two sentences, and its `preview.gif`.
 
 5. Run the checks:
 

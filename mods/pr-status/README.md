@@ -2,6 +2,8 @@
 
 Shows the CI status of the current branch's pull request in a band above the prompt. The band appears as soon as the branch has an open PR, counts its checks by state, and updates while they run:
 
+![pr-status running in Claude Code](preview.gif)
+
 ```
 PR #842  ✗ 1 failed  ⟳ 2 running  ○ 1 queued  ✓ 8 passed  feat(ENG-3331): parity follow-ups   [ Open ] [ Hide ]
   failing: CI / integration (pull_request)

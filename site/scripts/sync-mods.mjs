@@ -68,7 +68,9 @@ const mods = marketplace.plugins.map(entry => {
 
   // The page is the README as is, with a header (author, tags, install)
   // under its title.
-  const [title, ...rest] = linkFiles(readme, entry.name).split('\n')
+  // The README's own demo GIF is for GitHub; the page plays the MP4 instead.
+  const withoutGif = readme.replace(/\n!\[[^\]]*\]\(preview\.gif\)\n/, '\n')
+  const [title, ...rest] = linkFiles(withoutGif, entry.name).split('\n')
   const page = [
     '---',
     `title: ${yaml(entry.name)}`,

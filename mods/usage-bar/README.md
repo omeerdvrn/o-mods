@@ -2,6 +2,8 @@
 
 A Claude Code mod that shows your plan limits and where the session is working, under the prompt.
 
+![usage-bar running in Claude Code](preview.gif)
+
 ```
                      ⎇ feature/eng-1930 +1 ~2 ↑2   5h ████▏░░░░░ 42% ↻ 2h13m   7d ██░░░░░▏░░ 18% ↻ Sun 00:00
                                                         🔥 warm 42°   Opus 5.5   ctx 31%   $1.24

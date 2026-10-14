@@ -4,6 +4,8 @@ Animated pixel scenes above the prompt while Claude works. Each time Claude star
 random one, never the same twice in a row) and plays until the turn ends. Everything is drawn pixel by pixel, two
 pixels per terminal cell, in every terminal; the desktop app gets the same scene as an animated SVG.
 
+![scenes running in Claude Code](preview.gif)
+
 ## Scenes
 
 | Scene | What it does |
