@@ -1,20 +1,6 @@
 ---
-layout: home
-
-hero:
-  name: o-mods
-  text: Mods for Claude Code
-  tagline: Panes, sidebars, bands and hooks that run inside your Claude Code sessions. Open source. Install any of them with one command.
-  actions:
-    - theme: brand
-      text: Browse mods
-      link: '#mods'
-    - theme: alt
-      text: Install
-      link: /guide/install
-    - theme: alt
-      text: Build your own
-      link: /guide/contributing
+layout: showcase
+title: "o-mods: mods for Claude Code"
+titleTemplate: false
+description: "Open-source mods for Claude Code: pixel scenes, a usage bar, PR status, themes and more. See each one running, then install it with one command. Not affiliated with Anthropic."
 ---
-
-<ModGrid />

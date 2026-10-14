@@ -1,28 +1,25 @@
+---
+title: Install a mod
+description: Add the o-mods collection once, then install any mod by its name.
+aside: false
+---
+
 # Install a mod
 
-In a terminal, run:
+You need Claude Code 2.1.29x or later. Add the o-mods collection once, then install any mod by its name.
 
-```
-claude plugin marketplace add omeerdvrn/o-mods
-claude plugin install <mod>@o-mods
-```
+<InstallCommand steps :lines="['claude plugin marketplace add omeerdvrn/o-mods', 'claude plugin install heat@o-mods']" />
 
-For example:
+<!-- TODO: content review needed (builder-written, not in Copy) -->
+Replace `heat` with the name of any mod. A mod you install loads in every session. Add `--scope project` to install one for the current repository only.
 
-```
-claude plugin marketplace add omeerdvrn/o-mods
-claude plugin install heat@o-mods
-```
+Already in a session? Run /reload-plugins to load the new mod.
 
-The first command adds the marketplace and is needed only once. Mods install at user scope, so they load in every session, including the desktop app's Code tab; add `--scope project` to install one for the current repository only. Run `/reload-plugins` in any open session to load it there.
+Check your version with `claude --version`. Update with `claude update`.
 
-Each mod's page lists what it needs and its settings, which you can change with `/plugin`.
+## Update a mod
 
-## Requirements
-
-Mods use Claude Code's function-hook mod API, which is in early access. They need Claude Code **2.1.29x or later**. Check `claude --version`, and check your mods after major Claude Code updates.
-
-## Update
+<!-- TODO: content review needed -->
 
 ```
 claude plugin update <mod>
@@ -30,8 +27,12 @@ claude plugin update <mod>
 
 Then run `/reload-plugins` in any open session.
 
-## Remove
+## Remove a mod
+
+<!-- TODO: content review needed -->
 
 ```
 claude plugin uninstall <mod>
 ```
+
+o-mods is a community project. It is not affiliated with or endorsed by Anthropic.

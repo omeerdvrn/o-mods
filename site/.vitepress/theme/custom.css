@@ -1,290 +1,64 @@
-:root {
-  --vp-c-brand-1: #c4623f;
-  --vp-c-brand-2: #d97757;
-  --vp-c-brand-3: #d97757;
-  --vp-c-brand-soft: rgba(217, 119, 87, 0.14);
-  --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: linear-gradient(120deg, #d97757 20%, #f0b38a);
-  --vp-font-family-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+/* o-mods site: global styles. Tokens live in tokens.css; component styles are scoped in the components. */
 
-  --screen-bg: #1a1714;
-  --screen-fg: #e8e0d6;
-  --screen-dim: #8a8178;
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { overflow-x: hidden; font-family: var(--font-sans); }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
 }
 
-.dark {
-  --vp-c-brand-1: #e8916f;
-  --vp-c-brand-2: #d97757;
-  --vp-c-brand-3: #c4623f;
-  --vp-c-bg: #141210;
-  --vp-c-bg-alt: #0f0d0c;
-  --vp-c-bg-soft: #1d1a17;
-  --screen-bg: #0c0b0a;
+/* Focus: one visible ring everywhere, never removed */
+:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+
+/* Buttons (real links) */
+.btn, .vp-doc a.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: var(--tap-min); padding: 0 var(--space-5);
+  border: 2px solid transparent; border-radius: var(--radius-md);
+  font: 700 var(--text-base)/1.2 var(--font-sans); text-align: center; text-decoration: none;
+  transition: background-color 0.12s ease-out, border-color 0.12s ease-out;
 }
+.btn.btn-primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.btn.btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: var(--on-accent); }
+.btn.btn-ghost { padding: 0 var(--space-2); background: transparent; color: var(--accent-ink); border-color: transparent; text-decoration: underline; text-underline-offset: 4px; }
+.btn.btn-ghost:hover { background: var(--accent-soft); }
+.btn.btn-outline { background: transparent; color: var(--ink); border-color: var(--border-strong); }
+.btn.btn-outline:hover { background: var(--accent-soft); border-color: var(--accent-ink); }
+@media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
 
-/* Showcase */
+/* Nav bar: crab logo and pixel wordmark */
+.VPNavBarTitle .logo { height: 32px; width: auto; image-rendering: pixelated; }
+.VPNavBarTitle .title { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 700; letter-spacing: 0; color: var(--ink); }
+.VPNavBar, .VPNavBar .content-body { background-color: var(--paper); }
+.VPNavBar:not(.home.top) { border-bottom: 1px solid var(--border); }
+.VPNavBarMenuLink { font-size: var(--text-sm); }
+.VPNavBarMenuLink.active, .VPNavBarMenuLink:hover { color: var(--accent-ink) !important; }
+.VPNavBarMenuLink.active { text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 2px; }
 
-.mods {
-  margin-top: 8px;
-  scroll-margin-top: 96px;
-}
+/* Install / contribute doc pages */
+.vp-doc h1 { font-family: var(--font-display); font-weight: 700; font-size: var(--text-3xl); letter-spacing: 0; line-height: var(--leading-tight); }
+.vp-doc h2 { font-family: var(--font-display); font-weight: 700; font-size: var(--text-2xl); letter-spacing: 0; border-top: 0; margin-top: var(--space-7); padding-top: 0; }
+.vp-doc h3 { font-size: var(--text-xl); }
+.vp-doc a { color: var(--accent-ink); }
+.vp-doc ol, .vp-doc ul { padding-left: var(--space-5); }
+.vp-doc code { font-family: var(--font-mono); }
 
-.mods-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 24px;
-}
+/* README body on mod pages: its h2s are the page's second level */
+.mod-readme { margin-top: var(--space-6); }
+.mod-readme h2:first-child { margin-top: 0; }
+.vp-doc div[class*='language-'] pre { line-height: 1.4; }
+.vp-doc div[class*='language-'] { border-radius: var(--radius-md); }
 
-.mods-search {
-  flex: 1 1 220px;
-  max-width: 320px;
-  padding: 8px 12px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
-  background: var(--vp-c-bg-soft);
-  font-size: 14px;
-}
+/* Contribute landing */
+.contrib-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin: var(--space-5) 0; }
+.callout { margin: var(--space-5) 0; padding: var(--space-3) var(--space-4); border-left: 4px solid var(--accent); background: var(--paper-alt); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+.callout p { margin: 0; }
 
-.mods-search:focus {
-  border-color: var(--vp-c-brand-2);
-  outline: none;
-}
+/* Local search modal: keep the 44px floor on results */
+.VPLocalSearchBox .result a, .VPLocalSearchBox .result { min-height: var(--tap-min); }
 
-.mods-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.chip {
-  padding: 3px 10px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 999px;
-  font-size: 13px;
-  color: var(--vp-c-text-2);
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
-}
-
-.chip:hover {
-  border-color: var(--vp-c-brand-2);
-  color: var(--vp-c-text-1);
-}
-
-.chip.on {
-  border-color: var(--vp-c-brand-2);
-  background: var(--vp-c-brand-soft);
-  color: var(--vp-c-brand-1);
-}
-
-.mods-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.mod-card {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 12px;
-  background: var(--vp-c-bg-soft);
-  color: inherit;
-  text-decoration: none !important;
-  transition: border-color 0.2s, transform 0.2s;
-}
-
-.mod-card:hover {
-  border-color: var(--vp-c-brand-2);
-  transform: translateY(-2px);
-}
-
-.mod-screen {
-  position: relative;
-  height: 150px;
-  overflow: hidden;
-  background: var(--screen-bg);
-  border-bottom: 1px solid var(--vp-c-divider);
-}
-
-.mod-screen::before {
-  content: '';
-  position: absolute;
-  top: 10px;
-  left: 12px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #ff5f57;
-  box-shadow: 14px 0 #febc2e, 28px 0 #28c840;
-  opacity: 0.8;
-}
-
-/* A recording already shows its own terminal: no fake window dots on it. */
-.mod-screen:has(video, img)::before {
-  display: none;
-}
-
-.mod-screen::after {
-  content: '';
-  position: absolute;
-  inset: auto 0 0;
-  height: 36px;
-  background: linear-gradient(transparent, var(--screen-bg));
-}
-
-.mod-screen pre {
-  margin: 0;
-  padding: 30px 14px 0;
-  font-family: var(--vp-font-family-mono);
-  font-size: 9.5px;
-  line-height: 1.35;
-  color: var(--screen-fg);
-  white-space: pre;
-}
-
-.mod-screen .mod-screen-cmd {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  padding: 0 20px;
-  font-size: 18px;
-}
-
-.mod-screen-cmd .prompt {
-  margin-right: 10px;
-  color: #d97757;
-}
-
-.mod-screen video,
-.mod-screen img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
-}
-
-.mod-body {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  padding: 16px 18px 18px;
-}
-
-.mod-title {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.mod-title h3 {
-  margin: 0;
-  font-family: var(--vp-font-family-mono);
-  font-size: 17px;
-  font-weight: 600;
-}
-
-.mod-version {
-  font-size: 12px;
-  color: var(--vp-c-text-3);
-}
-
-.mod-body p {
-  flex: 1;
-  margin: 8px 0 14px;
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--vp-c-text-2);
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.mod-meta {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 6px;
-  font-size: 12px;
-  color: var(--vp-c-text-3);
-}
-
-.tag {
-  margin-left: 6px;
-  color: var(--vp-c-brand-1);
-}
-
-.mods-empty {
-  margin-top: 24px;
-  color: var(--vp-c-text-2);
-}
-
-/* Mod page header */
-
-.mod-header {
-  margin: 12px 0 28px;
-}
-
-.mod-header-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 16px;
-  font-size: 14px;
-  color: var(--vp-c-text-2);
-}
-
-.mod-header-meta .tag:first-child {
-  margin-left: 0;
-}
-
-.install {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 14px;
-  padding: 10px 10px 10px 14px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
-  background: var(--screen-bg);
-}
-
-.install code {
-  flex: 1;
-  overflow-x: auto;
-  padding: 0 !important;
-  background: none !important;
-  color: var(--screen-fg) !important;
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-.install button {
-  padding: 4px 12px;
-  border: 1px solid #3a342e;
-  border-radius: 6px;
-  font-size: 12px;
-  color: var(--screen-fg);
-}
-
-.install button:hover {
-  border-color: var(--vp-c-brand-2);
-}
-
-/* The recorded demo at the top of a mod page */
-.vp-doc .mod-demo {
-  display: block;
-  width: 100%;
-  margin: 8px 0 24px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 10px;
-  background: var(--screen-bg);
-}
-
-/* Terminal drawings in READMEs use box characters; keep them tight. */
-.vp-doc div[class*='language-'] pre {
-  line-height: 1.4;
-}
+/* 44px targets in the nav */
+.VPNavBarSearch .DocSearch-Button, .VPSocialLink { min-height: var(--tap-min); }
+.VPSocialLink { min-width: var(--tap-min); }

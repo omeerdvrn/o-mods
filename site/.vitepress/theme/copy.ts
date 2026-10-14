@@ -1,0 +1,64 @@
+// Final interface strings (design-state.md, "## Copy"). Used verbatim.
+export const fill = (text: string, values: Record<string, string | number>) =>
+  text.replace(/\{(\w+)\}/g, (_, key) => String(values[key] ?? `{${key}}`))
+
+export const copy = {
+  siteTitle: 'o-mods',
+  hero: {
+    headline: 'Make Claude Code yours',
+    pitch: 'Small add-ons that change how Claude Code looks and works. Watch each one run, then install it with one command.',
+    installLabel: 'Try one in your terminal',
+    primary: 'Browse the mods',
+    secondary: 'New to mods? Start here',
+  },
+  categories: {
+    fun: { name: 'For fun', intent: 'Animations, sounds and colors that make a long session feel better.' },
+    status: { name: 'Know where you stand', intent: 'See your limits, your pull request checks and your usage without leaving the prompt.' },
+    workflow: { name: 'Work faster', intent: 'Shortcuts for your tickets, your prompts and Claude’s long answers.' },
+  } as Record<string, { name: string; intent: string }>,
+  copyIdle: 'Copy',
+  copyNameCard: 'Copy install command for {mod}',
+  copyName: 'Copy install command',
+  copyDone: 'Copied',
+  copyAnnounce: 'Install command copied',
+  copyFailed: 'Press Ctrl+C to copy',
+  copyFailedNote: 'Your browser blocked copying. The command is selected: press Ctrl+C (Cmd+C on Mac).',
+  play: 'Play',
+  playName: 'Play demo of {mod}',
+  pause: 'Pause',
+  pauseName: 'Pause demo of {mod}',
+  installHeading: 'Install',
+  installStep1: 'Add the o-mods collection (once):',
+  installStep2: 'Install this mod:',
+  firstTime: 'First time? Set up o-mods',
+  breadcrumbRoot: 'All mods',
+  breadcrumbName: 'Breadcrumb',
+  prev: 'Previous: {mod}',
+  next: 'Next: {mod}',
+  moreIn: 'More mods in {category}',
+  jumpName: 'Jump to a group',
+  cardLinkName: '{mod}: {pitch}',
+  captionPrefix: 'What you are seeing',
+  metaVersion: 'Version',
+  metaLicense: 'License',
+  metaSource: 'Source on GitHub',
+  demoFailed: 'The demo could not load. Read what it shows above, or try again later.',
+  band: {
+    heading: 'Your mod could be here',
+    sentence: 'Made something for Claude Code? Open an issue, send a pull request, and we will review it together.',
+    button: 'Add your mod',
+  },
+  notFound: {
+    heading: 'We could not find that page',
+    sentence: 'The link may be old, or the page may have moved. Go back to all mods and pick one from there.',
+    button: 'Back to all mods',
+  },
+  footer: {
+    line1: 'o-mods is open source and made by people who like Claude Code.',
+    line2: 'Not affiliated with Anthropic.',
+    github: 'GitHub',
+    contribute: 'Contribute',
+    report: 'Report a problem',
+  },
+}
+export const REPO = 'https://github.com/omeerdvrn/o-mods'

@@ -1,16 +1,16 @@
 /* o-mods design tokens. Light is default; VitePress adds .dark on <html>.
-   Pixel font: Pixelify Sans (SIL OFL 1.1), self-hosted, DISPLAY ONLY (>= 20px, never body). */
+   Display font: JetBrains Mono (SIL OFL 1.1), self-hosted, for headings and names. */
 
 @font-face {
-  font-family: 'Pixelify Sans';
-  src: url('/fonts/pixelify-sans-400.woff2') format('woff2');
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/jetbrains-mono-400.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Pixelify Sans';
-  src: url('/fonts/pixelify-sans-700.woff2') format('woff2');
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/jetbrains-mono-700.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -18,7 +18,7 @@
 
 :root {
   /* Fonts */
-  --font-display: 'Pixelify Sans', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-display: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
   --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
