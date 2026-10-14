@@ -1,0 +1,16 @@
+{
+  "name": "snippets",
+  "version": "0.1.0",
+  "description": "The input bar, smarter: your Linear tickets in the typeahead as you type an id, live highlighting (tickets, paths, @mentions, secrets in red), and ;;snippets that expand as you type (;;mmi, ;;plan, ;;review...), and previews of pasted images above the input.",
+  "author": {
+    "name": "omeerdvrn"
+  },
+  "keywords": [
+    "prompt",
+    "autocomplete",
+    "snippets",
+    "linear",
+    "highlighting"
+  ],
+  "types": "./types/index.d.ts"
+}

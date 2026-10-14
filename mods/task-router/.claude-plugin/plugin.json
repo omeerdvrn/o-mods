@@ -1,0 +1,8 @@
+{
+  "name": "task-router",
+  "version": "0.1.0",
+  "description": "Routes every task to a worker subagent on the right model tier (Haiku, Sonnet, Opus) by rules you own, tracks it in a registry, and shows each model as a Claude crab in a status sidebar. Works with Superpowers: it plans, the router executes.",
+  "author": { "name": "omeerdvrn" },
+  "keywords": ["routing", "subagents", "models", "orchestration", "superpowers"],
+  "types": "./types/index.d.ts"
+}

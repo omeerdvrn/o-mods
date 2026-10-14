@@ -1,0 +1,23 @@
+{
+  "name": "huh",
+  "version": "0.1.0",
+  "description": "/huh opens Claude's last answer in the sidebar, rewritten to be easy to read (a short summary first, clear sections, lists), with the original one click away.",
+  "author": {
+    "name": "omeerdvrn"
+  },
+  "keywords": [
+    "reading",
+    "readability",
+    "sidebar",
+    "summary"
+  ],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "cellSize": {
+      "type": "string",
+      "title": "Terminal cell size in pixels",
+      "description": "Width x height of one terminal cell on screen, in device pixels, for drawing the typeset page 1:1 (sharp). 17x37 fits JetBrains Mono 14 pt on a Retina screen.",
+      "default": "17x37"
+    }
+  }
+}

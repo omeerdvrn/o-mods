@@ -1,0 +1,38 @@
+# task-router rules: the ONLY place routing decisions live.
+# The classifier labels each task on the dimensions below; the rules pick a worker, first match wins.
+# Format: plain YAML (mappings, lists, inline [a, b] and {key: value}); no anchors or multi-line strings.
+
+dimensions:
+  - name: complexity
+    description: How much reasoning the task needs. # TODO: refine
+    values: [trivial, moderate, complex]
+  - name: blast_radius
+    description: How much of the codebase the change can affect. # TODO: refine
+    values: [local, module, cross_cutting]
+  - name: ambiguity
+    description: How clearly the task says what done looks like. # TODO: refine
+    values: [clear, some, high]
+
+rules:
+  - name: trivial-local # TODO: refine
+    when: {complexity: trivial, blast_radius: local}
+    worker: worker-light
+  - name: cross-cutting # TODO: refine
+    when: {blast_radius: cross_cutting}
+    worker: worker-heavy
+  - name: complex # TODO: refine
+    when: {complexity: complex}
+    worker: worker-heavy
+  - name: unclear # TODO: refine
+    when: {ambiguity: high}
+    worker: worker-heavy
+  - name: typical-change # TODO: refine
+    when: {complexity: [trivial, moderate]}
+    worker: worker-standard
+
+default: worker-standard # TODO: refine
+
+escalation:
+  ladder: [worker-light, worker-standard, worker-heavy] # TODO: refine
+  min_confidence: 0.6 # below this, the task goes one tier up. TODO: refine
+  retry_failed_on_next_tier: true # TODO: refine

@@ -1,0 +1,24 @@
+{
+  "name": "usage-stats",
+  "version": "0.1.0",
+  "description": "Your Claude Code usage on this machine as a receipt: total tokens, prompts, sessions, issues closed, daily activity, and tokens by project and model. Opens with /usage-stats.",
+  "author": {
+    "name": "omeerdvrn"
+  },
+  "keywords": [
+    "usage",
+    "tokens",
+    "metrics",
+    "dashboard",
+    "linear"
+  ],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "linearServer": {
+      "type": "string",
+      "title": "Linear MCP server",
+      "description": "The Linear MCP server's name as /mcp lists it, for issues closed. Empty turns the Linear section off.",
+      "default": "claude.ai Linear"
+    }
+  }
+}

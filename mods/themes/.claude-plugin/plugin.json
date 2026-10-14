@@ -1,0 +1,10 @@
+{
+  "name": "themes",
+  "version": "0.1.0",
+  "description": "Color themes for Claude Code (Catppuccin, Dracula, Nord, Tokyo Night, Gruvbox, Rosé Pine and more). Each new session takes the next theme, so sessions are easy to tell apart; /themes picks or pins one.",
+  "author": {
+    "name": "omeerdvrn"
+  },
+  "keywords": ["theme", "catppuccin", "dracula", "nord", "colors"],
+  "types": "./types/index.d.ts"
+}
