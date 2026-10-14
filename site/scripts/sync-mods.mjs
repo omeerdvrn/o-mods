@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Builds the site's mod pages from the registry: one page per mod from its
-// README, plus mods.json for the showcase grid. Runs before dev and build.
+// README, plus mods.json for the showcase. Runs before dev and build.
 import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -9,9 +9,8 @@ const site = join(dirname(fileURLToPath(import.meta.url)), '..')
 const repo = join(site, '..')
 const REPO_URL = 'https://github.com/omeerdvrn/o-mods'
 const MARKETPLACE = 'omeerdvrn/o-mods'
-const PREVIEW_IMAGES = ['preview.gif', 'preview.webp', 'preview.png', 'preview.jpg']
-// Recorded demos ship an MP4 next to the GIF; the site plays it, being far smaller.
-const PREVIEW_VIDEO = 'preview.mp4'
+// The site groups mods by these, in this order (see CONTRIBUTING.md).
+const CATEGORIES = ['fun', 'status', 'workflow']
 
 const marketplace = JSON.parse(readFileSync(join(repo, '.claude-plugin/marketplace.json'), 'utf8'))
 
@@ -20,13 +19,9 @@ rmSync(join(site, 'public/previews'), { recursive: true, force: true })
 mkdirSync(join(site, 'mods'), { recursive: true })
 mkdirSync(join(site, 'public/previews'), { recursive: true })
 
-// The first fenced block right after the intro is the mod's terminal preview.
-// A block under a later heading (install commands, examples) is not.
-const previewOf = markdown => {
-  const intro = markdown.split(/\n## /)[0]
-  const block = intro.match(/```[a-z]*\n([\s\S]*?)```/)
-  return block ? block[1].replace(/\s+$/, '') : undefined
-}
+// The README's demo line: ![<what the demo shows>](preview.gif). Its alt text
+// is the demo's description on the site, for people who can't watch it.
+const GIF_LINE = /\n!\[([^\]]*)\]\(preview\.gif\)\n/
 
 // Links to files inside the mod point at GitHub; the site only has the README.
 const linkFiles = (markdown, name) =>
@@ -34,64 +29,56 @@ const linkFiles = (markdown, name) =>
 
 const yaml = value => JSON.stringify(value)
 
+const copyPublic = (from, to) => {
+  if (!existsSync(from)) return undefined
+  copyFileSync(from, join(site, 'public', to))
+  return to
+}
+
 const mods = marketplace.plugins.map(entry => {
+  if (!CATEGORIES.includes(entry.category)) throw new Error(`${entry.name}: marketplace.json needs a "category": one of ${CATEGORIES.join(', ')}`)
   const dir = join(repo, entry.source)
   const manifest = JSON.parse(readFileSync(join(dir, '.claude-plugin/plugin.json'), 'utf8'))
   const readme = readFileSync(join(dir, 'README.md'), 'utf8')
 
-  const imageName = PREVIEW_IMAGES.find(file => existsSync(join(dir, file)))
-  let image
-  if (imageName) {
-    image = `/previews/${entry.name}${imageName.slice(imageName.lastIndexOf('.'))}`
-    copyFileSync(join(dir, imageName), join(site, 'public', image))
-  }
-
-  let video
-  if (existsSync(join(dir, PREVIEW_VIDEO))) {
-    video = `/previews/${entry.name}.mp4`
-    copyFileSync(join(dir, PREVIEW_VIDEO), join(site, 'public', video))
-  }
-
   const mod = {
     name: entry.name,
+    category: entry.category,
+    // The short pitch from the marketplace; the longer description from the plugin.
+    pitch: entry.description,
     description: manifest.description ?? entry.description,
+    demoDescription: readme.match(GIF_LINE)?.[1] ?? entry.description,
     version: manifest.version ?? '0.0.0',
     author: manifest.author?.name ?? 'unknown',
     authorUrl: manifest.author?.url ?? (manifest.author?.name ? `https://github.com/${manifest.author.name}` : undefined),
     tags: manifest.keywords ?? [],
-    preview: previewOf(readme),
-    image,
-    video,
+    video: copyPublic(join(dir, 'preview.mp4'), `/previews/${entry.name}.mp4`),
+    poster: copyPublic(join(dir, 'preview.jpg'), `/previews/${entry.name}.jpg`),
+    gif: copyPublic(join(dir, 'preview.gif'), `/previews/${entry.name}.gif`),
     source: `${REPO_URL}/tree/main/mods/${entry.name}`,
-    install: `claude plugin marketplace add ${MARKETPLACE} && claude plugin install ${entry.name}@o-mods`,
+    install: [`claude plugin marketplace add ${MARKETPLACE}`, `claude plugin install ${entry.name}@o-mods`],
   }
 
-  // The page is the README as is, with a header (author, tags, install)
-  // under its title.
-  // The README's own demo GIF is for GitHub; the page plays the MP4 instead.
-  const withoutGif = readme.replace(/\n!\[[^\]]*\]\(preview\.gif\)\n/, '\n')
-  const [title, ...rest] = linkFiles(withoutGif, entry.name).split('\n')
+  // The page: the README's body under the mod layout, which draws the title,
+  // pitch, demo and install itself. The README's title and its demo GIF line
+  // (for GitHub) are left out.
+  const body = linkFiles(readme.replace(GIF_LINE, '\n'), entry.name).replace(/^# .*\n/, '')
   const page = [
     '---',
     `title: ${yaml(entry.name)}`,
-    `description: ${yaml(mod.description)}`,
+    `description: ${yaml(mod.pitch)}`,
+    'layout: mod',
+    `mod: ${yaml(entry.name)}`,
     'outline: [2, 3]',
     '---',
-    '',
-    title,
-    '',
-    `<ModHeader name=${yaml(entry.name)} />`,
-    ...(video
-      ? ['', `<video class="mod-demo" src="${video}" autoplay muted loop playsinline aria-label="${entry.name} running in Claude Code"></video>`]
-      : image
-        ? ['', `![${entry.name} running in Claude Code](${image})`]
-        : []),
-    ...rest,
-    '',
+    body,
   ].join('\n')
   writeFileSync(join(site, 'mods', `${entry.name}.md`), page)
   return mod
 })
+
+// Listed in category order, keeping the marketplace's order within each.
+mods.sort((a, b) => CATEGORIES.indexOf(a.category) - CATEGORIES.indexOf(b.category))
 
 writeFileSync(join(site, '.vitepress/mods.json'), JSON.stringify(mods, null, 2) + '\n')
 console.log(`synced ${mods.length} mods`)

@@ -2,7 +2,7 @@
 
 A Claude Code mod that shows the Linear issues assigned to you in a sidebar. Press **Start** on an issue to create a git worktree for it and have Claude implement it there.
 
-![linear running in Claude Code](preview.gif)
+![A sidebar lists assigned Linear issues as cards grouped by status, each with a Start button, beside the Claude conversation.](preview.gif)
 
 ```
 My issues                               15:47 ⟳

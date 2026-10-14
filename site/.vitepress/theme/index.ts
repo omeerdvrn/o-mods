@@ -2,6 +2,7 @@ import DefaultTheme from 'vitepress/theme'
 import type { Theme } from 'vitepress'
 import ModGrid from './components/ModGrid.vue'
 import ModHeader from './components/ModHeader.vue'
+import './tokens.css'
 import './custom.css'
 
 export default {

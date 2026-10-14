@@ -2,7 +2,7 @@
 
 An NBA-Jam-style heat tracker for Claude Code. Each prompt heats you up, tool calls keep you warm, and idle time cools you down. Once you're hot, a fire burst rises above the prompt each time you send one.
 
-![heat running in Claude Code](preview.gif)
+![Quick prompts heat the footer from ice cold to ON FIRE while a pixel fire grows above the prompt.](preview.gif)
 
 ```
                    % #  %% ##%%## # %# %#%#

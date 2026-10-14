@@ -49,8 +49,10 @@ o-mods is a registry of mods for Claude Code: panes, sidebars, bands, status lin
 3. Add the mod to the `plugins` list in `.claude-plugin/marketplace.json`:
 
    ```json
-   { "name": "<mod>", "source": "./mods/<mod>", "description": "<one line>" }
+   { "name": "<mod>", "source": "./mods/<mod>", "description": "<one line>", "category": "fun" }
    ```
+
+   `category` is where the mod shows on the site: `fun` (toys and personality), `status` (shows where you stand: limits, CI, usage, role) or `workflow` (helps you get work done).
 
 4. Add the mod to `README.md`: a cell in the section it fits, with its name linked to `mods/<mod>`, one or two sentences, and its `preview.gif`.
 

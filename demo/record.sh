@@ -63,5 +63,17 @@ for mod in "$@"; do
   # Smaller GIF for READMEs, and an MP4 the site plays (a fraction of the size).
   command -v gifsicle >/dev/null && gifsicle -O3 --lossy=80 --colors 64 --batch "$dir/preview.gif" 2>/dev/null || true
   ffmpeg -v error -y -i "$dir/preview.gif" -movflags +faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" -c:v libx264 -crf 26 -preset slow "$dir/preview.mp4"
-  echo "  → mods/$mod/preview.gif ($(du -h "$dir/preview.gif" | cut -f1)), preview.mp4 ($(du -h "$dir/preview.mp4" | cut -f1))"
+  # The poster the site shows before a demo plays: the second named by
+  # "poster" in demo.json, or 70% of the way in.
+  seconds=$(node -e '
+    const fs = require("fs"); const [script, video] = process.argv.slice(1)
+    let at; try { at = JSON.parse(fs.readFileSync(script, "utf8")).poster } catch {}
+    if (typeof at !== "number") {
+      const length = Number(require("child_process").execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", video], { encoding: "utf8" }))
+      at = length * 0.7
+    }
+    console.log(at.toFixed(2))
+  ' "$dir/demo.json" "$dir/preview.mp4")
+  ffmpeg -v error -y -ss "$seconds" -i "$dir/preview.mp4" -frames:v 1 -pix_fmt yuvj420p -q:v 4 "$dir/preview.jpg"
+  echo "  → mods/$mod/preview.gif ($(du -h "$dir/preview.gif" | cut -f1)), preview.mp4 ($(du -h "$dir/preview.mp4" | cut -f1)), preview.jpg"
 done

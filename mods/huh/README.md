@@ -7,7 +7,7 @@ the terminal; meanwhile Claude (Haiku, low effort) rewrites it for reading, and 
 - Short sections under clear headings, short paragraphs, lists for steps.
 - Every fact, path, command and code block kept as it was; nothing added.
 
-![huh running in Claude Code](preview.gif)
+![Claude's long answer is hard to read. /huh opens it in a sidebar with a short summary and clear headings, as a light page.](preview.gif)
 
 Nothing is spent until you ask: the rewrite runs only when you call `/huh`. A long answer is rewritten in parts
 at the same time, with the summary beside them, so it takes about as long as a short one.

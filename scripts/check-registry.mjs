@@ -17,6 +17,9 @@ const readJson = path => {
   }
 }
 
+// The site groups mods by these; see CONTRIBUTING.md.
+const CATEGORIES = ['fun', 'status', 'workflow']
+
 const marketplace = readJson(join(root, '.claude-plugin/marketplace.json')) ?? { plugins: [] }
 const listed = new Map(marketplace.plugins.map(plugin => [plugin.name, plugin]))
 const folders = readdirSync(join(root, 'mods')).filter(name => statSync(join(root, 'mods', name)).isDirectory())
@@ -33,6 +36,7 @@ for (const name of folders) {
   if (unlisted && entry) fail(`mods/${name}: has .unlisted but is in marketplace.json`)
   else if (!unlisted && !entry) fail(`mods/${name}: missing from .claude-plugin/marketplace.json (or add a .unlisted file while it's in testing)`)
   else if (entry && entry.source !== `./mods/${name}`) fail(`marketplace.json: ${name} source should be ./mods/${name}`)
+  if (entry && !CATEGORIES.includes(entry.category)) fail(`marketplace.json: ${name} needs a "category": one of ${CATEGORIES.join(', ')}`)
 
   const manifestPath = join(dir, '.claude-plugin/plugin.json')
   if (!existsSync(manifestPath)) fail(`mods/${name}: missing .claude-plugin/plugin.json`)

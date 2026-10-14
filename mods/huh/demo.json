@@ -15,5 +15,6 @@
       "match": "You rewrite an answer from a coding assistant",
       "text": "**In short:** checkout is slow mostly because prices are fetched once per item. Say if you want the first two fixes now.\n\n## What's slow\n\n- **Prices:** `getCart()` in `src/cart/load.ts` calls `fetchPrices()` once per line item. A 30-item cart makes 30 trips, 80-120ms each. That is most of the 3s.\n- **Tax:** the lookup in `src/checkout/tax.ts` is not cached (there's a `TODO: cache`). Every re-render recomputes it.\n- **Re-renders:** `PromoInput` lifts its state into `CheckoutPage`, so the summary re-renders on every keystroke.\n- **Index:** the `discounts` table has no index on `cart_id`. Small today; worse later.\n\n## Fixes\n\n1. **Batch** prices into one `fetchPrices(ids)` call.\n2. **Memoize** tax, keyed on cart contents plus region.\n3. **Move** promo state down into `PromoInput`.\n4. **Add** the index with a migration.\n\n## Next\n\nI can do the first two now. The index needs a migration, so you may want to schedule it separately."
     }
-  ]
+  ],
+  "poster": 19.32
 }

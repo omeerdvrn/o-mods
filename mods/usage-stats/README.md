@@ -2,7 +2,7 @@
 
 A Claude Code mod that shows your Claude Code usage on this machine. Type `/usage-stats` to open it. It never opens on its own. It opens as a side pane, brought to the front; where no pane can be shown, the same receipt is printed into the conversation.
 
-![usage-stats running in Claude Code](preview.gif)
+![Typing /usage-stats opens a side pane with 371.8M tokens in 30 days, a daily chart, and totals by project and by model.](preview.gif)
 
 ```
 Usage                                        7d  30d  All  ⟳

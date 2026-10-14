@@ -2,7 +2,7 @@
 
 Meme sounds when things happen. Out of the box:
 
-![faah running in Claude Code](preview.gif)
+![Typing /faah lists the sound events. Claude then runs a test suite with 2 failures, and /faah test plays the FAAAH sound. The recording is silent.](preview.gif)
 
 | When | Sound |
 | --- | --- |
