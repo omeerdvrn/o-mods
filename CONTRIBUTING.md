@@ -65,8 +65,7 @@ Each mod's `README.md` becomes its page on the site, as is. Follow the shape the
 1. `# <mod>` and one paragraph on what it does.
 2. **A preview right after the first paragraph.** A fenced code block that draws what the mod looks like in the terminal (see `mods/heat` or `mods/usage-bar`). The site plays the recorded demo on the mod's card and page; this drawing is the fallback until one exists.
 3. Features or how it works, commands, requirements, settings.
-4. `## Install` with `claude plugin marketplace add omeerdvrn/o-mods
-claude plugin install <mod>@o-mods`.
+4. `## Install` with `claude plugin marketplace add omeerdvrn/o-mods` and `claude plugin install <mod>@o-mods`.
 
 Links to files inside the mod (`hooks/register.tsx`) are turned into GitHub links on the site.
 
@@ -95,6 +94,8 @@ Every mod shows itself running in the Claude Code CLI: a `preview.gif`, and a `p
 brew install vhs gifsicle ffmpeg
 demo/record.sh <mod>
 ```
+
+Mods that draw pictures also need kitty (`brew install --cask kitty`).
 
 Add `mods/<mod>/demo.tape` (what is typed) and `mods/<mod>/demo.json` (what Claude answers). Copy them from a mod close to yours. [demo/README.md](https://github.com/omeerdvrn/o-mods/blob/main/demo/README.md) covers the format, isolation, fake services, and what to check before you open a pull request.
 

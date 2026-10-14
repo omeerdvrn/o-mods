@@ -1,0 +1,3 @@
+{
+  "permissions": { "allow": ["mcp__linear__list_issues"] }
+}

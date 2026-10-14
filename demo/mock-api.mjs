@@ -61,11 +61,26 @@ const pick = messages => {
 }
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+// Extra response headers, such as the plan-limit readings Claude Code reports
+// to mods ("anthropic-ratelimit-unified-5h-utilization"). {{in:2h13m}} is a
+// time that far from now, in Unix seconds, for reset times.
+const UNITS = { d: 86_400, h: 3_600, m: 60, s: 1 }
+const headers = () =>
+  Object.fromEntries(
+    Object.entries(script.headers ?? {}).map(([name, value]) => [
+      name,
+      String(value).replace(/\{\{in:([\dhdms]+)\}\}/g, (_, span) => {
+        const seconds = [...span.matchAll(/(\d+)([dhms])/g)].reduce((sum, [, n, unit]) => sum + Number(n) * UNITS[unit], 0)
+        return String(Math.floor(Date.now() / 1000) + seconds)
+      }),
+    ]),
+  )
 let toolCount = 0
 
 const stream = async (res, model, steps) => {
   const send = (event, data) => res.write(`event: ${event}\ndata: ${JSON.stringify({ type: event, ...data })}\n\n`)
-  res.writeHead(200, { 'content-type': 'text/event-stream', 'cache-control': 'no-cache', 'request-id': 'req_demo' })
+  res.writeHead(200, { 'content-type': 'text/event-stream', 'cache-control': 'no-cache', 'request-id': 'req_demo', ...headers() })
   send('message_start', {
     message: { id: `msg_demo_${Date.now()}`, type: 'message', role: 'assistant', model, content: [], stop_reason: null, stop_sequence: null, usage: { input_tokens: 1200, output_tokens: 1, cache_read_input_tokens: 0, cache_creation_input_tokens: 0 } },
   })
@@ -120,7 +135,7 @@ const server = createServer((req, res) => {
       const content = steps.flatMap(step =>
         step.text !== undefined ? [{ type: 'text', text: step.text }] : step.tool ? [{ type: 'tool_use', id: `toolu_demo_${++toolCount}`, name: step.tool, input: step.input ?? {} }] : [],
       )
-      res.writeHead(200, { 'content-type': 'application/json' })
+      res.writeHead(200, { 'content-type': 'application/json', ...headers() })
       return res.end(JSON.stringify({ id: 'msg_demo', type: 'message', role: 'assistant', model: request.model, content, stop_reason: steps.some(s => s.tool) ? 'tool_use' : 'end_turn', usage: { input_tokens: 1200, output_tokens: 180 } }))
     }
     await stream(res, request.model, steps)

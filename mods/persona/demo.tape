@@ -1,27 +1,45 @@
+# recorder: kitty (the crab is a picture, which VHS's terminal cannot show)
 Output mods/persona/preview.gif
 Source demo/setup.tape
-Set Framerate 24
 
-# Hidden: build a fake project (mods/persona/demo/make-project.sh), trust it in the throwaway config,
-# and start Claude Code in it.
 Hide
-Type `M="$OMODS_ROOT/mods" && sh $M/persona/demo/make-project.sh && P=/tmp/omods-persona/acme-shop` Enter
-Type `node -e 'const f=process.argv[1],p=process.argv[2],fs=require("fs"),c=JSON.parse(fs.readFileSync(f));for(const k of [p,fs.realpathSync(p)])c.projects[k]={hasTrustDialogAccepted:true,hasCompletedProjectOnboarding:true};Object.assign(c,{hasSeenAutoModeEntryWarning:true,lastReleaseNotesSeen:"2.1.300",lastClawdEntranceVersion:"2.1.300"});fs.writeFileSync(f,JSON.stringify(c))' "$OMODS_CONFIG/.claude.json" $P` Enter
-Type `cd $P && clear && claude --plugin-dir $M/persona` Enter
-Sleep 6s
+Type `sh "$OMODS_ROOT/mods/persona/demo/make-project.sh" && clear` Enter
+Type `claude --plugin-dir "$OMODS_ROOT/mods/persona"` Enter
+Wait+Screen@40s /mode on/
+Sleep 1s
 Show
 
-Sleep 1.5s
+Sleep 1s
 Type "/persona ui-ux"
 Sleep 600ms
 Enter
-Sleep 3s
+Wait+Screen@20s /UI\/UX Designer\s*$/
+Sleep 2s
 Type "make the button corners rounded"
 Enter
-Sleep 7s
+Wait+Screen@40s /soft rounded-lg corners/
+Wait+Screen@20s /for shortcuts/
+Sleep 2s
 Type "add a discount field to orders"
 Enter
-Sleep 10s
+Wait+Screen@40s /checkout card/
+Wait+Screen@20s /for shortcuts/
 Sleep 3s
+Type "/persona backend"
+Sleep 500ms
+Enter
+Wait+Screen@20s /Backend Developer\s*$/
+Sleep 2s
+Type "/persona qa"
+Sleep 500ms
+Enter
+Wait+Screen@20s /QA Engineer\s*$/
+Sleep 2s
+Type "/persona docs"
+Sleep 500ms
+Enter
+Wait+Screen@20s /Technical Writer\s*$/
+Sleep 3s
+Hide
 Ctrl+C
 Ctrl+C
