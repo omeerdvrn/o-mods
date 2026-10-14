@@ -1,3 +1,5 @@
+Closes #<!-- the issue number. Every pull request starts from an issue: open one first if there isn't one. -->
+
 ## What this changes
 
 <!-- New mod, or a change to an existing one? One or two sentences. -->
