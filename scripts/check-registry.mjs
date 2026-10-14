@@ -51,9 +51,12 @@ for (const name of listed.keys()) {
 }
 
 // Secrets: the patterns real keys have. Test fixtures that need a fake key
-// must use an obviously fake one (sk-ant-abc…xyz) on a line marked "fake".
+// must use an obviously fake one: sk-ant-abc…xyz, a line marked "fake", or a
+// documented example key (AWS's AKIA…EXAMPLE).
 const SECRET = /(sk-ant-[A-Za-z0-9_-]{30,}|ghp_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|lin_api_[A-Za-z0-9]{30,}|xox[abprs]-[A-Za-z0-9-]{20,}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----)/
-const SKIP = new Set(['node_modules', '.git', '.vitepress', 'dist', 'cache'])
+// Someone's real home folder. Generic ones (/Users/dev, /home/user) are fine.
+const HOME_PATH = /\/(Users|home)\/(?!(dev|user|me|you|runner|example)\b)[a-z][\w.-]*\//
+const SKIP = new Set(['node_modules', '.git', '.vitepress', 'dist', 'cache', '__pycache__', '.DS_Store'])
 const walk = dir => {
   for (const name of readdirSync(dir)) {
     if (SKIP.has(name)) continue
@@ -61,7 +64,8 @@ const walk = dir => {
     if (statSync(path).isDirectory()) walk(path)
     else if (statSync(path).size < 1_000_000) {
       readFileSync(path, 'utf8').split('\n').forEach((line, index) => {
-        if (SECRET.test(line) && !/fake|abcdefghijklmnop/i.test(line)) fail(`${relative(root, path)}:${index + 1}: looks like a secret`)
+        if (SECRET.test(line) && !/fake|example|abcdefghijklmnop/i.test(line)) fail(`${relative(root, path)}:${index + 1}: looks like a secret`)
+        if (HOME_PATH.test(line)) fail(`${relative(root, path)}:${index + 1}: a real home path; use {{HOME}}, $HOME or ~ instead`)
       })
     }
   }

@@ -122,6 +122,11 @@
   opacity: 0.8;
 }
 
+/* A recording already shows its own terminal: no fake window dots on it. */
+.mod-screen:has(video, img)::before {
+  display: none;
+}
+
 .mod-screen::after {
   content: '';
   position: absolute;
@@ -153,6 +158,7 @@
   color: #d97757;
 }
 
+.mod-screen video,
 .mod-screen img {
   width: 100%;
   height: 100%;
@@ -266,6 +272,16 @@
 
 .install button:hover {
   border-color: var(--vp-c-brand-2);
+}
+
+/* The recorded demo at the top of a mod page */
+.vp-doc .mod-demo {
+  display: block;
+  width: 100%;
+  margin: 8px 0 24px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  background: var(--screen-bg);
 }
 
 /* Terminal drawings in READMEs use box characters; keep them tight. */

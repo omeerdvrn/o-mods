@@ -1,0 +1,1 @@
+{ "name": "checkout-demo", "private": true, "scripts": { "test": "node --test --test-reporter=spec" } }

@@ -10,6 +10,8 @@ const repo = join(site, '..')
 const REPO_URL = 'https://github.com/omeerdvrn/o-mods'
 const MARKETPLACE = 'omeerdvrn/o-mods'
 const PREVIEW_IMAGES = ['preview.gif', 'preview.webp', 'preview.png', 'preview.jpg']
+// Recorded demos ship an MP4 next to the GIF; the site plays it, being far smaller.
+const PREVIEW_VIDEO = 'preview.mp4'
 
 const marketplace = JSON.parse(readFileSync(join(repo, '.claude-plugin/marketplace.json'), 'utf8'))
 
@@ -44,6 +46,12 @@ const mods = marketplace.plugins.map(entry => {
     copyFileSync(join(dir, imageName), join(site, 'public', image))
   }
 
+  let video
+  if (existsSync(join(dir, PREVIEW_VIDEO))) {
+    video = `/previews/${entry.name}.mp4`
+    copyFileSync(join(dir, PREVIEW_VIDEO), join(site, 'public', video))
+  }
+
   const mod = {
     name: entry.name,
     description: manifest.description ?? entry.description,
@@ -53,6 +61,7 @@ const mods = marketplace.plugins.map(entry => {
     tags: manifest.keywords ?? [],
     preview: previewOf(readme),
     image,
+    video,
     source: `${REPO_URL}/tree/main/mods/${entry.name}`,
     install: `/plugin install ${entry.name} --marketplace ${MARKETPLACE}`,
   }
@@ -70,7 +79,11 @@ const mods = marketplace.plugins.map(entry => {
     title,
     '',
     `<ModHeader name=${yaml(entry.name)} />`,
-    ...(image ? ['', `![${entry.name} running in Claude Code](${image})`] : []),
+    ...(video
+      ? ['', `<video class="mod-demo" src="${video}" autoplay muted loop playsinline aria-label="${entry.name} running in Claude Code"></video>`]
+      : image
+        ? ['', `![${entry.name} running in Claude Code](${image})`]
+        : []),
     ...rest,
     '',
   ].join('\n')
