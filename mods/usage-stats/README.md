@@ -57,7 +57,8 @@ Nothing leaves your machine except the Linear request.
 ## Install
 
 ```
-/plugin install usage-stats --marketplace omeerdvrn/o-mods
+claude plugin marketplace add omeerdvrn/o-mods
+claude plugin install usage-stats@o-mods
 ```
 
 ## Development

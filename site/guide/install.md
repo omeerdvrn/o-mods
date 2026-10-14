@@ -1,22 +1,22 @@
 # Install a mod
 
-In a Claude Code terminal session, run:
+In a terminal, run:
 
 ```
-/plugin install <mod> --marketplace omeerdvrn/o-mods
+claude plugin marketplace add omeerdvrn/o-mods
+claude plugin install <mod>@o-mods
 ```
 
 For example:
 
 ```
-/plugin install heat --marketplace omeerdvrn/o-mods
+claude plugin marketplace add omeerdvrn/o-mods
+claude plugin install heat@o-mods
 ```
 
-1. Type `y` to add the marketplace. Claude Code asks only the first time.
-2. Select a scope. The user scope makes the mod load in every session.
-3. Set the mod's options, or keep the defaults.
+The first command adds the marketplace and is needed only once. Mods install at user scope, so they load in every session, including the desktop app's Code tab; add `--scope project` to install one for the current repository only. Run `/reload-plugins` in any open session to load it there.
 
-The mod is active immediately. Each mod's page lists what it needs and its settings.
+Each mod's page lists what it needs and its settings, which you can change with `/plugin`.
 
 ## Requirements
 

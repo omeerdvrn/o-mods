@@ -63,7 +63,7 @@ const mods = marketplace.plugins.map(entry => {
     image,
     video,
     source: `${REPO_URL}/tree/main/mods/${entry.name}`,
-    install: `/plugin install ${entry.name} --marketplace ${MARKETPLACE}`,
+    install: `claude plugin marketplace add ${MARKETPLACE} && claude plugin install ${entry.name}@o-mods`,
   }
 
   // The page is the README as is, with a header (author, tags, install)

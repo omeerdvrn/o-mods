@@ -31,17 +31,14 @@ All 51   Todo 25   In progress 9   In review 4   Done 44
 
 ## Install
 
-In a Claude Code terminal session, run:
+In a terminal, run:
 
 ```
-/plugin install linear --marketplace omeerdvrn/o-mods
+claude plugin marketplace add omeerdvrn/o-mods
+claude plugin install linear@o-mods
 ```
 
-1. Type `y` to add the marketplace.
-2. Select a scope. The user scope makes the mod load in every session.
-3. Set the options, or keep the defaults.
-
-The mod is active immediately. The `/plugin install` command is not available in the desktop app's Code tab, but a mod installed from the terminal at user scope also loads there.
+The first command adds the marketplace and is needed only once. Mods install at user scope, so they load in every session, including the desktop app's Code tab; add `--scope project` to install one for the current repository only. Run `/reload-plugins` in any open session to load it there.
 
 ## Use
 
