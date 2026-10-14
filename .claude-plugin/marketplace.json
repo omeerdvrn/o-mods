@@ -41,11 +41,6 @@
       "description": "Color themes for Claude Code (Catppuccin, Dracula, Nord, Tokyo Night, Gruvbox, Rosé Pine and more). Each new session opens in the next theme, so sessions are easy to tell apart; /themes picks or pins one."
     },
     {
-      "name": "task-router",
-      "source": "./mods/task-router",
-      "description": "Routes each task to a worker subagent on the right model tier (Haiku, Sonnet, Opus) by rules you own, tracks it in a registry, and shows each model as a Claude crab in a status sidebar. Integrates with Superpowers."
-    },
-    {
       "name": "scenes",
       "source": "./mods/scenes",
       "description": "Animated pixel scenes above the prompt while Claude works, a random one each time (night drive, rainy window, fish tank, space flight, lo-fi room, campfire, ocean sunset, matrix rain, usage weather), event bursts, and a companion crab that acts out what Claude does. Drawn, no images."
