@@ -1,0 +1,28 @@
+{
+  "name": "faah",
+  "version": "0.1.0",
+  "description": "Meme sounds on events: FAAAH when tests fail, anime wow when they pass, bruh when Claude asks you something; failed builds, commands, rejected pushes, denials, errors and interruptions on request.",
+  "author": {
+    "name": "omeerdvrn"
+  },
+  "keywords": [
+    "fun",
+    "sound",
+    "tests",
+    "meme"
+  ],
+  "userConfig": {
+    "events": {
+      "type": "string",
+      "title": "When to play it",
+      "description": "Comma-separated: tests-failed, tests-passed, asking, build-failed, command-failed, push-rejected, denied, turn-error, interrupted. /faah add|remove changes it too.",
+      "default": "tests-failed, tests-passed, asking"
+    },
+    "volume": {
+      "type": "string",
+      "title": "Volume",
+      "description": "0 to 4; 1 is the clip as recorded.",
+      "default": "1"
+    }
+  }
+}

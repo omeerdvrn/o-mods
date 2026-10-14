@@ -1,0 +1,57 @@
+{
+  "name": "linear",
+  "version": "0.1.0",
+  "description": "Sidebar of your assigned Linear issues; Start creates a git worktree and begins implementing the issue.",
+  "author": {
+    "name": "omeerdvrn"
+  },
+  "keywords": [
+    "linear",
+    "issues",
+    "worktree",
+    "sidebar"
+  ],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "repoPath": {
+      "type": "string",
+      "title": "Repository path",
+      "description": "Git repository to create worktrees in. Empty: the session's working directory.",
+      "default": ""
+    },
+    "baseRef": {
+      "type": "string",
+      "title": "Base ref",
+      "description": "Branch or commit a new issue branch starts from.",
+      "default": "HEAD"
+    },
+    "startMode": {
+      "type": "string",
+      "title": "Start mode",
+      "description": "session: this session enters the worktree and implements. agent: a background subagent implements inside the worktree.",
+      "default": "session",
+      "options": [
+        "session",
+        "agent"
+      ]
+    },
+    "moveToInProgress": {
+      "type": "boolean",
+      "title": "Move to In Progress",
+      "description": "Set the issue's Linear status to In Progress when Start is pressed.",
+      "default": true
+    },
+    "linearServer": {
+      "type": "string",
+      "title": "Linear MCP server",
+      "description": "The Linear MCP server's name as /mcp lists it. When it is not connected, \"claude.ai Linear\" and \"linear\" are tried too.",
+      "default": "claude.ai Linear"
+    },
+    "statusColors": {
+      "type": "string",
+      "title": "Custom status colors",
+      "description": "Colors for statuses Linear's MCP does not expose, as Name=#HEX pairs: Blocked=#EB5757, Test=#26B5CE. Standard statuses use Linear's defaults.",
+      "default": ""
+    }
+  }
+}

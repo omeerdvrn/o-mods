@@ -1,0 +1,16 @@
+{
+  "name": "usage-bar",
+  "version": "0.1.0",
+  "description": "Shows your 5-hour and weekly plan limits, used or remaining, and the session's git branch or worktree under the prompt.",
+  "author": {
+    "name": "omeerdvrn"
+  },
+  "keywords": [
+    "usage",
+    "rate-limits",
+    "git",
+    "worktree",
+    "statusline"
+  ],
+  "types": "./types/index.d.ts"
+}

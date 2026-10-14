@@ -1,0 +1,7 @@
+node_modules/
+.vitepress/cache/
+.vitepress/dist/
+# Generated from ../mods by scripts/sync-mods.mjs
+mods/
+public/previews/
+.vitepress/mods.json

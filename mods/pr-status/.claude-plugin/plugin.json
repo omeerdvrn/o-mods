@@ -1,0 +1,18 @@
+{
+  "name": "pr-status",
+  "version": "1.0.0",
+  "description": "Live CI status of the current branch's pull request above the prompt, or of any PR you pin with /pr-status <number>. Detects GitHub, GitLab, Gitea/Forgejo, Bitbucket and Azure DevOps.",
+  "author": {
+    "name": "omeerdvrn"
+  },
+  "keywords": [
+    "pr",
+    "ci",
+    "github",
+    "gitlab",
+    "gitea",
+    "bitbucket",
+    "azure-devops"
+  ],
+  "types": "./types/index.d.ts"
+}

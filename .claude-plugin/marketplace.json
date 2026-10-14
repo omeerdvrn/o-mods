@@ -1,0 +1,69 @@
+{
+  "name": "o-mods",
+  "description": "Claude Code mods by omeerdvrn: sidebars, panes and hooks for everyday work.",
+  "owner": {
+    "name": "omeerdvrn"
+  },
+  "plugins": [
+    {
+      "name": "heat",
+      "source": "./mods/heat",
+      "description": "NBA-Jam-style heat tracker: prompts and tool calls heat you up, idle time cools you down, and a fire burst rises above the prompt as you get hot."
+    },
+    {
+      "name": "linear",
+      "source": "./mods/linear",
+      "description": "Sidebar of your assigned Linear issues; Start creates a git worktree and begins implementing the issue."
+    },
+    {
+      "name": "usage-bar",
+      "source": "./mods/usage-bar",
+      "description": "Shows your 5-hour and weekly plan limits, used or remaining, and the session's git branch or worktree under the prompt."
+    },
+    {
+      "name": "usage-stats",
+      "source": "./mods/usage-stats",
+      "description": "Your Claude Code usage on this machine as a receipt: total tokens, prompts, sessions, issues closed, daily activity, and tokens by project and model. Opens with /usage-stats."
+    },
+    {
+      "name": "persona",
+      "source": "./mods/persona",
+      "description": "Pick a role for Claude on this machine (UI/UX, Backend, Dev, QA, Docs, PM); edits and shell commands outside the role are denied, and the Claude crab dressed for the role shows under the prompt."
+    },
+    {
+      "name": "pr-status",
+      "source": "./mods/pr-status",
+      "description": "Live CI status of the current branch's pull request above the prompt, or of any PR you pin with /pr-status <number>. Detects GitHub, GitLab, Gitea/Forgejo, Bitbucket and Azure DevOps."
+    },
+    {
+      "name": "themes",
+      "source": "./mods/themes",
+      "description": "Color themes for Claude Code (Catppuccin, Dracula, Nord, Tokyo Night, Gruvbox, Rosé Pine and more). Each new session opens in the next theme, so sessions are easy to tell apart; /themes picks or pins one."
+    },
+    {
+      "name": "task-router",
+      "source": "./mods/task-router",
+      "description": "Routes each task to a worker subagent on the right model tier (Haiku, Sonnet, Opus) by rules you own, tracks it in a registry, and shows each model as a Claude crab in a status sidebar. Integrates with Superpowers."
+    },
+    {
+      "name": "scenes",
+      "source": "./mods/scenes",
+      "description": "Animated pixel scenes above the prompt while Claude works, a random one each time (night drive, rainy window, fish tank, space flight, lo-fi room, campfire, ocean sunset, matrix rain, usage weather), event bursts, and a companion crab that acts out what Claude does. Drawn, no images."
+    },
+    {
+      "name": "huh",
+      "source": "./mods/huh",
+      "description": "/huh opens Claude's last answer in the sidebar, rewritten to be easy to read (a short summary first, clear sections, lists), with the original one click away."
+    },
+    {
+      "name": "snippets",
+      "source": "./mods/snippets",
+      "description": "The input bar, smarter: Linear tickets in the typeahead, live highlighting (tickets, paths, @mentions, secrets), and ;;snippets that expand as you type."
+    },
+    {
+      "name": "faah",
+      "source": "./mods/faah",
+      "description": "Meme sounds on events: FAAAH when tests fail, anime wow when they pass, bruh when Claude asks you something. More events and your own clips with /faah."
+    }
+  ]
+}

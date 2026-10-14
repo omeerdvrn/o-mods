@@ -1,0 +1,22 @@
+name: Mod idea
+description: Suggest a mod, or claim one you want to build
+labels: [mod-idea]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Mod name
+      placeholder: my-mod
+  - type: textarea
+    id: what
+    attributes:
+      label: What it does
+      description: What the user sees and when. A sketch of the UI helps.
+    validations:
+      required: true
+  - type: checkboxes
+    id: build
+    attributes:
+      label: Building it
+      options:
+        - label: I want to build this myself

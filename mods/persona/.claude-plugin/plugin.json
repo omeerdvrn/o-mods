@@ -1,0 +1,14 @@
+{
+  "name": "persona",
+  "version": "1.0.0",
+  "description": "Pick a role for Claude on this machine (UI/UX, Backend, Dev, QA, Docs, PM); edits and shell commands outside the role are denied, and the Claude crab dressed for the role shows under the prompt.",
+  "author": {
+    "name": "omeerdvrn"
+  },
+  "keywords": [
+    "persona",
+    "role",
+    "guard",
+    "permissions"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "heat",
+  "version": "1.0.0",
+  "description": "NBA-Jam-style heat tracker: prompts and tool calls heat you up, idle time cools you down, and a fire burst rises above the prompt as you get hot.",
+  "author": {
+    "name": "omeerdvrn"
+  },
+  "keywords": ["fun", "heat", "fire", "streak"],
+  "types": "./types/index.d.ts"
+}
