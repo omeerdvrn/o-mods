@@ -66,7 +66,7 @@ const mods = marketplace.plugins.map(entry => {
   const page = [
     '---',
     `title: ${yaml(entry.name)}`,
-    `description: ${yaml(mod.pitch)}`,
+    `description: ${yaml(`${mod.pitch} Install ${entry.name} for Claude Code with one command.`)}`,
     'layout: mod',
     `mod: ${yaml(entry.name)}`,
     'outline: [2, 3]',
