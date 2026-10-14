@@ -1,0 +1,6 @@
+{
+  "turns": [
+    { "prompt": "write a short plan", "steps": [
+      { "text": "Plan for the login fix:\n\n1. **Files:** `src/auth/session.ts`, `src/auth/session.test.ts`\n2. **Approach:** refresh the token before it expires instead of after the 401\n3. **Risks:** two tabs refreshing at once; I'll guard it with a lock\n\nSay go and I'll start." } ] }
+  ]
+}

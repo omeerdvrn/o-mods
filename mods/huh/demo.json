@@ -1,0 +1,19 @@
+{
+  "wordDelay": 12,
+  "turns": [
+    {
+      "prompt": "why is checkout slow",
+      "steps": [
+        {
+          "text": "So I dug through this and there are actually a few things going on, which is partly why it was hard to pin down. The main one is that `getCart()` in `src/cart/load.ts` calls `fetchPrices()` once per line item instead of once per cart, so a cart with 30 items makes 30 round trips to the pricing service, and each of those takes roughly 80-120ms under load, which on its own explains most of the 3s you're seeing, but on top of that the tax lookup in `src/checkout/tax.ts` isn't cached at all (there's a `TODO: cache` comment from a while back) so every re-render of the summary recomputes it, and the summary re-renders on every keystroke in the promo code field because `PromoInput` lifts its state into `CheckoutPage`. Also, unrelated but I noticed it, the `discounts` table has no index on `cart_id`, which doesn't matter much today with small data but will get worse. What I'd suggest is batching the price fetch into one `fetchPrices(ids)` call, memoizing the tax result keyed on cart contents plus region, moving the promo state down into `PromoInput`, and adding the index with a migration. I can do the first two now if you want; the index needs a migration so you may want to schedule that separately. Let me know."
+        }
+      ]
+    }
+  ],
+  "side": [
+    {
+      "match": "You rewrite an answer from a coding assistant",
+      "text": "**In short:** checkout is slow mostly because prices are fetched once per item. Say if you want the first two fixes now.\n\n## What's slow\n\n- **Prices:** `getCart()` in `src/cart/load.ts` calls `fetchPrices()` once per line item. A 30-item cart makes 30 trips, 80-120ms each. That is most of the 3s.\n- **Tax:** the lookup in `src/checkout/tax.ts` is not cached (there's a `TODO: cache`). Every re-render recomputes it.\n- **Re-renders:** `PromoInput` lifts its state into `CheckoutPage`, so the summary re-renders on every keystroke.\n- **Index:** the `discounts` table has no index on `cart_id`. Small today; worse later.\n\n## Fixes\n\n1. **Batch** prices into one `fetchPrices(ids)` call.\n2. **Memoize** tax, keyed on cart contents plus region.\n3. **Move** promo state down into `PromoInput`.\n4. **Add** the index with a migration.\n\n## Next\n\nI can do the first two now. The index needs a migration, so you may want to schedule it separately."
+    }
+  ]
+}

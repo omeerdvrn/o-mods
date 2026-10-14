@@ -1,0 +1,10 @@
+{
+  "turns": [
+    { "prompt": "commit the staged tax fix", "steps": [
+      { "tool": "Bash", "input": { "command": "git commit -qm \"ENG-123: fix tax rounding\"", "description": "Commit the staged fix" } },
+      { "text": "Committed **ENG-123: fix tax rounding**. The branch is now 3 commits ahead of `origin`." } ] },
+    { "prompt": "switch back to main", "steps": [
+      { "tool": "Bash", "input": { "command": "git switch -q main", "description": "Switch to main" } },
+      { "text": "On `main` now. Your two unstaged edits came along with you." } ] }
+  ]
+}

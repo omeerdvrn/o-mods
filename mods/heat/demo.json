@@ -1,0 +1,83 @@
+{
+  "thinkDelay": 300,
+  "wordDelay": 25,
+  "turns": [
+    {
+      "prompt": "add a dark mode toggle to the settings page please",
+      "steps": [
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "ls",
+            "description": "Look around"
+          }
+        },
+        {
+          "text": "Toggle added to settings."
+        }
+      ]
+    },
+    {
+      "prompt": "now persist the choice in local storage across reloads",
+      "steps": [
+        {
+          "text": "Saved to localStorage, restored on load."
+        }
+      ]
+    },
+    {
+      "prompt": "write tests for the toggle and the persistence logic",
+      "steps": [
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "echo '✓ 6 tests passed'",
+            "description": "Run tests"
+          }
+        },
+        {
+          "text": "6 tests pass."
+        }
+      ]
+    },
+    {
+      "prompt": "great, also respect the system color scheme by default",
+      "steps": [
+        {
+          "text": "Defaults to prefers-color-scheme now."
+        }
+      ]
+    },
+    {
+      "prompt": "update the README with a screenshot section for it too",
+      "steps": [
+        {
+          "text": "README updated."
+        }
+      ]
+    },
+    {
+      "prompt": "commit all of that with a good message and open the PR",
+      "steps": [
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "echo '[main 3f9c2a1] feat: dark mode toggle'",
+            "description": "Commit"
+          }
+        },
+        {
+          "text": "Committed and PR opened. 🔥"
+        }
+      ]
+    },
+    {
+      "prompt": "you're on fire, keep shipping the rest of the backlog!!",
+      "steps": [
+        {
+          "text": "🔥🔥🔥"
+        }
+      ]
+    }
+  ]
+}

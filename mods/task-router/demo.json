@@ -1,0 +1,118 @@
+{
+  "thinkDelay": 1000,
+  "wordDelay": 45,
+  "turns": [
+    {
+      "prompt": "One route plus middleware",
+      "steps": [
+        {
+          "text": "Labels are in. Recording them and picking a worker."
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "python3 \"$REGISTRY\" classified t-5b21 '{\"labels\": {\"complexity\": \"moderate\", \"blast_radius\": \"module\", \"ambiguity\": \"clear\"}, \"confidence\": 0.88}'",
+            "description": "Record the labels"
+          }
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "python3 \"$REGISTRY\" decide t-5b21",
+            "description": "Pick the worker"
+          }
+        },
+        {
+          "text": "Routed to worker-standard on Sonnet 5.5. Dispatching."
+        },
+        {
+          "tool": "Agent",
+          "input": {
+            "subagent_type": "task-router:worker-standard",
+            "description": "[t-5b21] Rate-limit POST /login",
+            "prompt": "You are the routed worker for task [t-5b21]: Rate-limit POST /login to 5 attempts per minute per IP; return 429 with Retry-After. Files: src/routes/login.js."
+          }
+        },
+        {
+          "text": "The worker is on it."
+        }
+      ]
+    },
+    {
+      "prompt": "Added a 5-per-minute limiter",
+      "steps": [
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "python3 \"$REGISTRY\" update t-5b21 --status done --set 'result_summary=\"POST /login is rate-limited to 5 attempts per minute per IP.\"' >/dev/null",
+            "description": "Mark t-5b21 done"
+          }
+        },
+        {
+          "text": "t-5b21 is done on Sonnet 5.5: POST /login now allows 5 attempts a minute per IP."
+        }
+      ]
+    },
+    {
+      "prompt": "Rules file:",
+      "steps": [
+        {
+          "pause": 2500,
+          "text": "{\"labels\": {\"complexity\": \"moderate\", \"blast_radius\": \"module\", \"ambiguity\": \"clear\"}, \"reasoning\": \"One route plus middleware, behaviour is fully specified.\", \"confidence\": 0.88}"
+        }
+      ]
+    },
+    {
+      "prompt": "You are the routed worker",
+      "steps": [
+        {
+          "tool": "Read",
+          "input": {
+            "file_path": "{{HOME}}/src/shop-api/src/routes/login.js"
+          }
+        },
+        {
+          "pause": 1200,
+          "tool": "Edit",
+          "input": {
+            "file_path": "{{HOME}}/src/shop-api/src/routes/login.js",
+            "old_string": "import { verifyPassword } from '../auth.js'",
+            "new_string": "import { rateLimit } from 'express-rate-limit'\nimport { verifyPassword } from '../auth.js'\n\nconst limiter = rateLimit({ windowMs: 60_000, limit: 5, standardHeaders: true })"
+          }
+        },
+        {
+          "pause": 700,
+          "tool": "Edit",
+          "input": {
+            "file_path": "{{HOME}}/src/shop-api/src/routes/login.js",
+            "old_string": "login.post('/login', async",
+            "new_string": "login.post('/login', limiter, async"
+          }
+        },
+        {
+          "pause": 1200,
+          "text": "Added a 5-per-minute limiter to POST /login; it answers 429 with Retry-After.\n\n{\"task_id\": \"t-5b21\", \"result\": \"success\", \"summary\": \"POST /login is rate-limited to 5 attempts per minute per IP.\"}"
+        }
+      ]
+    },
+    {
+      "prompt": "route the pending login task",
+      "steps": [
+        {
+          "text": "Classifying t-5b21 first."
+        },
+        {
+          "tool": "Agent",
+          "input": {
+            "subagent_type": "task-router:task-classifier",
+            "description": "classify [t-5b21]",
+            "prompt": "Rules file: .claude/routing/rules.yaml. Task [t-5b21]: Rate-limit POST /login to 5 attempts per minute per IP; return 429 with Retry-After."
+          }
+        },
+        {
+          "text": "Waiting for its labels."
+        }
+      ]
+    }
+  ]
+}

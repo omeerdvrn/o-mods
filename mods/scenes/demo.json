@@ -1,0 +1,57 @@
+{
+  "thinkDelay": 1400,
+  "wordDelay": 60,
+  "turns": [
+    {
+      "prompt": "check the cart total and run the tests",
+      "steps": [
+        {
+          "text": "Looking for where the total is computed."
+        },
+        {
+          "tool": "Grep",
+          "input": {
+            "pattern": "total",
+            "path": "."
+          }
+        },
+        {
+          "pause": 1200,
+          "text": "The math is right. Running the suite."
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "npm test --silent",
+            "description": "Run the cart tests"
+          }
+        },
+        {
+          "pause": 2500,
+          "text": "All 3 tests pass. The cart total is correct."
+        }
+      ]
+    },
+    {
+      "prompt": "anything else worth a look",
+      "steps": [
+        {
+          "pause": 1500,
+          "text": "Let me check what else the suite covers."
+        },
+        {
+          "tool": "Grep",
+          "input": {
+            "pattern": "test\\(",
+            "path": ".",
+            "output_mode": "count"
+          }
+        },
+        {
+          "pause": 2000,
+          "text": "Three focused tests, all green. Nothing else needs a look."
+        }
+      ]
+    }
+  ]
+}

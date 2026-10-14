@@ -20,7 +20,8 @@ o-mods is a registry of mods for Claude Code: panes, sidebars, bands, status lin
    ├── commands/                    # slash commands, if any
    ├── types/                       # the mod's state contract
    ├── tests/
-   ├── preview.png                  # optional: screenshot or GIF for the site
+   ├── demo.tape, demo.json         # the recorded demo (see "Record a demo")
+   ├── preview.gif, preview.mp4     # written by demo/record.sh
    └── README.md
    ```
 
@@ -62,7 +63,7 @@ o-mods is a registry of mods for Claude Code: panes, sidebars, bands, status lin
 Each mod's `README.md` becomes its page on the site, as is. Follow the shape the existing mods use:
 
 1. `# <mod>` and one paragraph on what it does.
-2. **A preview right after the first paragraph.** A fenced code block that draws what the mod looks like in the terminal (see `mods/heat` or `mods/usage-bar`). The site shows this preview on the mod's card. A `preview.png`, `preview.gif` or `preview.webp` in the mod folder is used instead when present.
+2. **A preview right after the first paragraph.** A fenced code block that draws what the mod looks like in the terminal (see `mods/heat` or `mods/usage-bar`). The site plays the recorded demo on the mod's card and page; this drawing is the fallback until one exists.
 3. Features or how it works, commands, requirements, settings.
 4. `## Install` with `/plugin install <mod> --marketplace omeerdvrn/o-mods`.
 
@@ -87,18 +88,14 @@ The mod API is in early access. Mods need Claude Code 2.1.29x or later.
 
 ## Record a demo
 
-Every mod should show itself running in the Claude Code CLI. Demos are recorded with [VHS](https://github.com/charmbracelet/vhs), so anyone can re-record one after a change:
+Every mod shows itself running in the Claude Code CLI: a `preview.gif`, and a `preview.mp4` the site plays. Demos are scripted and recorded against a local mock of the Claude API, so they need no account and cost nothing:
 
 ```
-brew install vhs
-vhs mods/<mod>/demo.tape
+brew install vhs gifsicle ffmpeg
+demo/record.sh <mod>
 ```
 
-`demo.tape` writes `mods/<mod>/preview.gif`, which the site shows on the mod's card and page. Copy the tape of a mod close to yours and change the steps. Keep demos short (10–25 seconds), 1200×650, and record in a session with only your mod loaded:
-
-- Start Claude with `--plugin-dir mods/<mod>` and `CLAUDE_CONFIG_DIR` pointed at a throwaway config, so other plugins stay out of frame.
-- Keep the welcome banner out of the GIF: start under `Hide`, run `/clear`, then `Show`.
-- Use example data only. No real tickets, repos, names or org details on screen.
+Add `mods/<mod>/demo.tape` (what is typed) and `mods/<mod>/demo.json` (what Claude answers). Copy them from a mod close to yours. [demo/README.md](https://github.com/omeerdvrn/o-mods/blob/main/demo/README.md) covers the format, isolation, fake services, and what to check before you open a pull request.
 
 ## Preview the site
 

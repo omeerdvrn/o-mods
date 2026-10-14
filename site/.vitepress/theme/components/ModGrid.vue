@@ -37,7 +37,8 @@ const pick = (t: string) => (tag.value = tag.value === t ? null : t)
     <div class="mods-grid">
       <a v-for="mod in shown" :key="mod.name" class="mod-card" :href="withBase(`/mods/${mod.name}`)">
         <div class="mod-screen" aria-hidden="true">
-          <img v-if="mod.image" :src="withBase(mod.image)" alt="" loading="lazy" />
+          <video v-if="mod.video" :src="withBase(mod.video)" autoplay muted loop playsinline preload="metadata" />
+          <img v-else-if="mod.image" :src="withBase(mod.image)" alt="" loading="lazy" />
           <pre v-else-if="mod.preview">{{ mod.preview }}</pre>
           <pre v-else class="mod-screen-cmd"><span class="prompt">❯</span> /{{ mod.name }}</pre>
         </div>

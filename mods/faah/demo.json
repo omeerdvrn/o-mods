@@ -1,0 +1,7 @@
+{
+  "turns": [
+    { "prompt": "run the tests", "steps": [
+      { "tool": "Bash", "input": { "command": "make test", "description": "Run the test suite" } },
+      { "text": "2 of 14 failed, both in `src/checkout.test.ts`: the discount is applied twice, and tax isn't rounded to the cent. Want me to fix them?" } ] }
+  ]
+}

@@ -1,0 +1,72 @@
+#!/usr/bin/env node
+// A fake `gh` for the pr-status demo. It never calls the real gh or the network.
+// It plays GitHub for one PR, #42 on acme/webapp: the checks of the first run
+// finish a few seconds after the first look (unit fails), and a `git push` to
+// the demo repo's (local) push remote starts a new run that passes.
+// State lives in $FAKE_GH_STATE (the demo repo's .git/fake-gh).
+const fs = require('fs')
+const { execFileSync } = require('child_process')
+const args = process.argv.slice(2)
+const dir = process.env.FAKE_GH_STATE
+if (!dir) { console.error('fake gh: FAKE_GH_STATE not set'); process.exit(1) }
+fs.mkdirSync(dir, { recursive: true })
+const now = Date.now() / 1000
+
+const firstLook = () => {
+  const file = `${dir}/first-look`
+  if (!fs.existsSync(file)) fs.writeFileSync(file, String(now))
+  return Number(fs.readFileSync(file, 'utf8'))
+}
+// GitHub starts a new run when the branch head moves: compare the pushed head with the PR's first head.
+const pushedAt = () => {
+  const bare = execFileSync('git', ['config', 'remote.origin.pushurl'], { encoding: 'utf8' }).trim()
+  const head = execFileSync('git', ['--git-dir', bare, 'rev-parse', 'refs/heads/feature/eng-128-dark-mode'], { encoding: 'utf8' }).trim()
+  const first = fs.readFileSync(`${dir}/first-head`, 'utf8').trim()
+  if (head === first) return null
+  const file = `${dir}/push-${head}`
+  if (!fs.existsSync(file)) fs.writeFileSync(file, String(now))
+  return Number(fs.readFileSync(file, 'utf8'))
+}
+
+const iso = t => new Date(t * 1000).toISOString()
+const run = (name, start, elapsed, doneAfter, conclusion, queuedFor = 0) => ({
+  __typename: 'CheckRun', name, workflowName: 'CI',
+  status: elapsed < queuedFor ? 'QUEUED' : elapsed < doneAfter ? 'IN_PROGRESS' : 'COMPLETED',
+  conclusion: elapsed < doneAfter ? '' : conclusion,
+  startedAt: iso(start), detailsUrl: `https://github.com/acme/webapp/actions/runs/${start === firstLook() - 60 ? 9137402 : 9137455}/job/${name}`,
+})
+
+function rollup() {
+  const pushed = pushedAt()
+  if (pushed === null) {
+    const start = firstLook() - 60, e = now - start
+    return [run('lint', start, e, 0, 'SUCCESS'), run('typecheck', start, e, 0, 'SUCCESS'),
+      run('build', start, e, 66, 'SUCCESS'), run('unit', start, e, 66, 'FAILURE'), run('e2e', start, e, 67, 'SUCCESS', 61)]
+  }
+  const start = pushed, e = now - start
+  return [run('lint', start, e, 2, 'SUCCESS'), run('typecheck', start, e, 3, 'SUCCESS'),
+    run('build', start, e, 4, 'SUCCESS'), run('unit', start, e, 4.5, 'SUCCESS'), run('e2e', start, e, 4.5, 'SUCCESS', 1)]
+}
+
+const is = (...words) => words.every((w, i) => args[i] === w)
+if (is('pr', 'view')) {
+  if (!fs.existsSync(`${dir}/first-head`)) fs.writeFileSync(`${dir}/first-head`, execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }))
+  process.stdout.write(JSON.stringify({
+    number: 42, title: 'feat(ENG-128): add dark mode', url: 'https://github.com/acme/webapp/pull/42',
+    state: 'OPEN', isDraft: false, statusCheckRollup: rollup(),
+  }) + '\n')
+} else if (is('run', 'view') && args.includes('--log-failed')) {
+  process.stdout.write([
+    'unit\tRun npm test\t FAIL  src/theme.test.ts',
+    'unit\tRun npm test\t  ● themes › includes dark',
+    'unit\tRun npm test\t    expect(received).toContain(expected)',
+    'unit\tRun npm test\t    Expected value: "dark"',
+    'unit\tRun npm test\t    Received array: ["light"]',
+    'unit\tRun npm test\t      at src/theme.test.ts:5:20',
+    'unit\tRun npm test\tTests: 1 failed, 23 passed, 24 total',
+    'unit\tRun npm test\t##[error]Process completed with exit code 1.',
+  ].join('\n') + '\n')
+} else {
+  console.error(`fake gh (demo): "gh ${args.join(' ')}" is not part of this demo`)
+  process.exit(1)
+}
