@@ -65,7 +65,8 @@ Each mod's `README.md` becomes its page on the site, as is. Follow the shape the
 1. `# <mod>` and one paragraph on what it does.
 2. **A preview right after the first paragraph.** A fenced code block that draws what the mod looks like in the terminal (see `mods/heat` or `mods/usage-bar`). The site plays the recorded demo on the mod's card and page; this drawing is the fallback until one exists.
 3. Features or how it works, commands, requirements, settings.
-4. `## Install` with `/plugin install <mod> --marketplace omeerdvrn/o-mods`.
+4. `## Install` with `claude plugin marketplace add omeerdvrn/o-mods
+claude plugin install <mod>@o-mods`.
 
 Links to files inside the mod (`hooks/register.tsx`) are turned into GitHub links on the site.
 

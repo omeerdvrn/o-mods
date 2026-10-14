@@ -26,7 +26,8 @@ In remaining mode, the bar drains as you use the limit, in one color for how clo
 ## Install
 
 ```
-/plugin install usage-bar --marketplace omeerdvrn/o-mods
+claude plugin marketplace add omeerdvrn/o-mods
+claude plugin install usage-bar@o-mods
 ```
 
 It replaces a `statusLine` command for these figures: remove `statusLine` from `~/.claude/settings.json` if you used one for them.

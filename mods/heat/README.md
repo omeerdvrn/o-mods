@@ -44,7 +44,8 @@ From 15, each prompt lights a fire burst in the band above the prompt. The hotte
 ## Install
 
 ```
-/plugin install heat --marketplace omeerdvrn/o-mods
+claude plugin marketplace add omeerdvrn/o-mods
+claude plugin install heat@o-mods
 ```
 
 ## Development
