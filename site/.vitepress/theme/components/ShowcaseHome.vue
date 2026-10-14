@@ -3,12 +3,17 @@ import HomeHero from './HomeHero.vue'
 import CategorySection from './CategorySection.vue'
 import YourModBand from './YourModBand.vue'
 import { copy as strings } from '../copy'
+import { inCategory } from '../mods'
 
 const groups = Object.keys(strings.categories)
+const last = groups[groups.length - 1]
+// An odd last group leaves a hole in the two-column grid: the contribute tile fills it.
+// Otherwise the full-width band closes the page.
+const tileFills = inCategory(last).length % 2 === 1
 </script>
 
 <template>
-  <div class="home">
+  <main class="home">
     <HomeHero />
     <nav class="jump" :aria-label="strings.jumpName">
       <ul>
@@ -18,10 +23,10 @@ const groups = Object.keys(strings.categories)
       </ul>
     </nav>
     <div id="mods" class="mods">
-      <CategorySection v-for="key in groups" :key="key" :category="key" />
+      <CategorySection v-for="key in groups" :key="key" :category="key" :fill-slot="key === last && tileFills" />
     </div>
-    <YourModBand />
-  </div>
+    <YourModBand v-if="!tileFills" />
+  </main>
 </template>
 
 <style scoped>

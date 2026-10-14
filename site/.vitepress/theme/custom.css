@@ -1,8 +1,8 @@
 /* o-mods site: global styles. Tokens live in tokens.css; component styles are scoped in the components. */
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--vp-nav-height) + var(--space-4)); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-body { overflow-x: hidden; font-family: var(--font-sans); }
+body { font-family: var(--font-sans); }
 
 .sr-only {
   position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden;
@@ -10,7 +10,7 @@ body { overflow-x: hidden; font-family: var(--font-sans); }
 }
 
 /* Focus: one visible ring everywhere, never removed */
-:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+html :focus-visible, html button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
 
 /* Buttons (real links) */
 .btn, .vp-doc a.btn {
@@ -24,6 +24,7 @@ body { overflow-x: hidden; font-family: var(--font-sans); }
 .btn.btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: var(--on-accent); }
 .btn.btn-ghost { padding: 0 var(--space-2); background: transparent; color: var(--accent-ink); border-color: transparent; text-decoration: underline; text-underline-offset: 4px; }
 .btn.btn-ghost:hover { background: var(--accent-soft); }
+.vp-doc a.btn.btn-ghost { text-decoration: underline; text-underline-offset: 4px; }
 .btn.btn-outline { background: transparent; color: var(--ink); border-color: var(--border-strong); }
 .btn.btn-outline:hover { background: var(--accent-soft); border-color: var(--accent-ink); }
 @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
@@ -45,6 +46,16 @@ body { overflow-x: hidden; font-family: var(--font-sans); }
 .vp-doc ol, .vp-doc ul { padding-left: var(--space-5); }
 .vp-doc code { font-family: var(--font-mono); }
 
+/* Wide README content scrolls inside itself; it never widens the page. */
+.mod-readme, .mod-readme > * { min-width: 0; max-width: 100%; }
+.mod-readme pre, .mod-readme table { max-width: 100%; overflow-x: auto; }
+.mod-readme table { display: block; }
+.mod-readme img { max-width: 100%; height: auto; }
+@media (max-width: 639px) {
+  /* VitePress pulls code blocks 24px past the gutter on phones; keep them inside it. */
+  .mod-readme div[class*='language-'] { margin-left: 0; margin-right: 0; border-radius: var(--radius-md); }
+}
+
 /* README body on mod pages: its h2s are the page's second level */
 .mod-readme { margin-top: var(--space-6); }
 .mod-readme h2:first-child { margin-top: 0; }
@@ -58,6 +69,13 @@ body { overflow-x: hidden; font-family: var(--font-sans); }
 
 /* Local search modal: keep the 44px floor on results */
 .VPLocalSearchBox .result a, .VPLocalSearchBox .result { min-height: var(--tap-min); }
+
+/* Empty search: say what to try next (text lives in copy.ts, set on <html> by Layout.vue) */
+.VPLocalSearchBox .no-results::after { content: var(--search-help, ''); display: block; margin-top: var(--space-2); font-size: var(--text-sm); }
+
+/* Bigger hit area for the theme switch (the visible switch stays small) */
+.VPSwitchAppearance { position: relative; }
+.VPSwitchAppearance::after { content: ''; position: absolute; inset: -11px -4px; }
 
 /* 44px targets in the nav */
 .VPNavBarSearch .DocSearch-Button, .VPSocialLink { min-height: var(--tap-min); }

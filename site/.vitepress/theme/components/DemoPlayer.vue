@@ -46,12 +46,27 @@ onBeforeUnmount(() => mq?.removeEventListener('change', onMq))
 </script>
 
 <template>
-  <figure class="demo" :class="{ 'demo-card': interactive, 'demo-still': reduced && !playing }">
+  <figure class="demo" :class="{ 'demo-card': interactive, 'demo-auto': autoplay, 'demo-playing': playing }">
     <div class="term">
       <div class="term-bar">
         <span class="term-dots" aria-hidden="true"><i /><i /><i /></span>
         <span class="term-title" :aria-hidden="interactive ? 'true' : undefined">{{ title ?? mod }}</span>
-        <span class="term-spacer" aria-hidden="true" />
+        <button
+          v-if="video && !failed"
+          type="button"
+          class="demo-btn"
+          :aria-label="fill(playing ? strings.pauseName : strings.playName, { mod })"
+          @click="toggle"
+        >
+          <svg v-if="playing" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" focusable="false">
+            <path d="M5 3h3.5v14H5zM11.5 3H15v14h-3.5z" fill="currentColor" />
+          </svg>
+          <svg v-else viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" focusable="false">
+            <path d="M5 3l12 7-12 7z" fill="currentColor" />
+          </svg>
+          <span class="demo-btn-text">{{ playing ? strings.pause : interactive ? strings.play : strings.playDemo }}</span>
+        </button>
+        <span v-else class="term-spacer" aria-hidden="true" />
       </div>
       <div class="term-screen">
         <p v-if="failed || !video" class="demo-failed" role="status">{{ strings.demoFailed }}</p>
@@ -67,22 +82,12 @@ onBeforeUnmount(() => mq?.removeEventListener('change', onMq))
             :preload="interactive ? 'none' : 'metadata'"
             @play="playing = true"
             @pause="playing = false"
+            @click="!interactive && toggle()"
             @error="failed = true"
           />
-          <button
-            type="button"
-            class="demo-btn"
-            :aria-label="fill(playing ? strings.pauseName : strings.playName, { mod })"
-            @click="toggle"
-          >
-            <svg v-if="playing" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" focusable="false">
-              <path d="M5 3h3.5v14H5zM11.5 3H15v14h-3.5z" fill="currentColor" />
-            </svg>
-            <svg v-else viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" focusable="false">
-              <path d="M5 3l12 7-12 7z" fill="currentColor" />
-            </svg>
-            <span class="demo-btn-text">{{ playing ? strings.pause : strings.play }}</span>
-          </button>
+          <span v-if="!interactive" class="demo-glyph" aria-hidden="true">
+            <svg viewBox="0 0 20 20" width="28" height="28" focusable="false"><path d="M5 3l12 7-12 7z" fill="currentColor" /></svg>
+          </span>
         </template>
       </div>
     </div>
@@ -104,7 +109,7 @@ onBeforeUnmount(() => mq?.removeEventListener('change', onMq))
 }
 .term-bar {
   display: flex; align-items: center; gap: var(--space-3);
-  height: 36px; padding: 0 var(--space-3);
+  height: 44px; padding: 0 var(--space-3);
   background: var(--term-chrome);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
@@ -121,6 +126,8 @@ onBeforeUnmount(() => mq?.removeEventListener('change', onMq))
 .term-screen { position: relative; aspect-ratio: 16 / 9; background: var(--term-bg); }
 .demo-card .term-screen { aspect-ratio: 16 / 10; }
 .term-screen video { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; }
+.term-screen video { cursor: pointer; }
+.demo-card .term-screen video { cursor: inherit; }
 
 .demo-failed {
   display: flex; align-items: center; justify-content: center; height: 100%; margin: 0;
@@ -128,30 +135,37 @@ onBeforeUnmount(() => mq?.removeEventListener('change', onMq))
   font: var(--text-sm)/var(--leading-body) var(--font-mono); color: var(--term-text);
 }
 
+/* Play/Pause lives in the title bar (right), so it never covers the recording. */
 .demo-btn {
-  position: absolute; right: var(--space-3); bottom: var(--space-3); z-index: 2;
-  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
-  min-width: var(--tap-min); min-height: var(--tap-min); padding: 0 12px;
+  position: relative; flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-width: 32px; height: 28px; padding: 0 8px;
   background: var(--accent); color: var(--on-accent);
-  border: 2px solid var(--term-bg); border-radius: var(--radius-pill);
-  font: 700 var(--text-sm)/1 var(--font-sans); cursor: pointer;
+  border: 0; border-radius: var(--radius-pill);
+  font: 700 var(--text-xs)/1 var(--font-sans); cursor: pointer;
   transition: background-color 0.12s ease-out;
 }
+/* 44px hit area around the 28px pill */
+.demo-btn::after { content: ''; position: absolute; inset: -8px -6px; }
 .demo-btn:hover { background: var(--accent-hover); }
-.demo-btn:focus-visible { outline: 3px solid var(--term-accent); outline-offset: 2px; }
+html .demo-btn:focus-visible { outline: 3px solid var(--term-accent); outline-offset: 2px; }
 /* Icon-only on cards and phones; label from 768px on pages */
 .demo-btn-text { display: none; }
-@media (min-width: 768px) { .demo:not(.demo-card) .demo-btn-text { display: inline; } .demo:not(.demo-card) .demo-btn { padding: 0 16px; } }
+@media (min-width: 768px) { .demo:not(.demo-card) .demo-btn-text { display: inline; } .demo:not(.demo-card) .demo-btn { padding: 0 12px; } }
 
-/* Reduced motion: nothing moves; the Play button is the invitation, centred */
-.demo-still .demo-btn {
-  right: 50%; bottom: 50%; transform: translate(50%, 50%);
+/* A big play glyph on the poster: the invitation. Gone once playing.
+   The hero autoplays, so it only shows there under reduced motion (pure CSS: right from first paint). */
+.demo-glyph {
+  position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center;
+  pointer-events: none; color: var(--on-accent);
 }
-.demo-still .demo-btn-text { display: inline; }
-.demo-still .demo-btn { padding: 0 16px; }
+.demo-glyph svg { box-sizing: content-box; padding: 18px 16px 18px 20px; background: var(--accent); border-radius: 50%; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4); }
+.demo-playing .demo-glyph { display: none; }
+.demo-auto .demo-glyph { display: none; }
+@media (prefers-reduced-motion: reduce) { .demo-auto:not(.demo-playing) .demo-glyph { display: flex; } }
 
 @media (min-width: 768px) {
-  .term-bar { height: 40px; }
+  .term-bar { height: 44px; }
   .term-dots i { width: 12px; height: 12px; }
   .term-spacer { flex-basis: 48px; }
   .term-title { font-size: var(--text-sm); }

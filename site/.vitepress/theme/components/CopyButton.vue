@@ -2,7 +2,7 @@
 import { onBeforeUnmount, ref } from 'vue'
 import { copy as strings } from '../copy'
 
-const props = defineProps<{ text: string; label: string }>()
+const props = defineProps<{ text: string; label: string; failedLabel?: string; failedNote?: string }>()
 const emit = defineEmits<{ (e: 'failed'): void; (e: 'copied'): void }>()
 
 const state = ref<'idle' | 'done' | 'failed'>('idle')
@@ -34,7 +34,7 @@ const run = async () => {
     ok = legacyCopy(props.text)
   }
   state.value = ok ? 'done' : 'failed'
-  announce.value = ok ? strings.copyAnnounce : strings.copyFailedNote
+  announce.value = ok ? strings.copyAnnounce : props.failedNote ?? strings.copyFailedNote
   emit(ok ? 'copied' : 'failed')
   timer = setTimeout(() => { state.value = 'idle'; announce.value = '' }, ok ? 2000 : 6000)
 }
@@ -51,7 +51,7 @@ onBeforeUnmount(() => clearTimeout(timer))
       <svg v-else class="copy-icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
         <path d="M5 1.5h8.5V11H5zM2.5 4.5v10H11" fill="none" stroke="currentColor" stroke-width="1.5" />
       </svg>
-      <span>{{ state === 'done' ? strings.copyDone : state === 'failed' ? strings.copyFailed : strings.copyIdle }}</span>
+      <span>{{ state === 'done' ? strings.copyDone : state === 'failed' ? (failedLabel ?? strings.copyFailed) : strings.copyIdle }}</span>
     </button>
     <span class="sr-only" role="status" aria-live="polite">{{ announce }}</span>
   </span>
@@ -75,6 +75,6 @@ onBeforeUnmount(() => clearTimeout(timer))
 .on-term .copy-btn:hover { background: rgba(255, 255, 255, 0.08); border-color: var(--term-accent); }
 .on-term .copy-btn[data-state='done'] { color: var(--term-success); border-color: var(--term-success); }
 .on-term .copy-btn[data-state='failed'] { color: var(--term-error); border-color: var(--term-error); }
-.on-term .copy-btn:focus-visible { outline-color: var(--term-accent); }
+html .on-term .copy-btn:focus-visible { outline-color: var(--term-accent); }
 @media (prefers-reduced-motion: reduce) { .copy-btn { transition: none; } }
 </style>

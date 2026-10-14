@@ -16,7 +16,9 @@ o-mods is open source, and every mod here started as an idea someone wrote down.
 
 <div class="contrib-actions">
   <a class="btn btn-primary" href="https://github.com/omeerdvrn/o-mods/issues/new?template=mod-idea.yml">Open an issue</a>
-  <a class="btn btn-ghost" href="https://github.com/omeerdvrn/o-mods/blob/main/CONTRIBUTING.md">Read the full guide on GitHub</a>
+  <a class="btn btn-ghost" href="#the-details">Read the details below</a>
 </div>
+
+## The details
 
 <!--@include: ../../CONTRIBUTING.md{3,}-->

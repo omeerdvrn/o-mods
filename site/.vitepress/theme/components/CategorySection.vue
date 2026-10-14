@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import ModCard from './ModCard.vue'
+import YourModBand from './YourModBand.vue'
 import { copy as strings } from '../copy'
 import { inCategory } from '../mods'
 import { withBase } from 'vitepress'
@@ -8,7 +9,7 @@ import { withBase } from 'vitepress'
 // The persona mod's crabs, dressed for what each group is about.
 const CRABS: Record<string, string> = { fun: 'ui-ux', status: 'qa', workflow: 'dev' }
 
-const props = defineProps<{ category: string }>()
+const props = defineProps<{ category: string; fillSlot?: boolean }>()
 const info = computed(() => strings.categories[props.category])
 const items = computed(() => inCategory(props.category))
 </script>
@@ -21,7 +22,8 @@ const items = computed(() => inCategory(props.category))
     </div>
     <p class="cat-intent">{{ info.intent }}</p>
     <ul class="cat-grid">
-      <li v-for="mod in items" :key="mod.name"><ModCard :mod="mod" /></li>
+      <li v-for="mod in items" :key="mod.name"><ModCard :mod="mod" :show-category="false" /></li>
+      <li v-if="fillSlot && items.length % 2 === 1" class="cat-fill"><YourModBand tile /></li>
     </ul>
   </section>
 </template>
@@ -34,5 +36,7 @@ const items = computed(() => inCategory(props.category))
 .cat-intent { margin: var(--space-2) 0 var(--space-5); max-width: 60ch; font: var(--text-base)/var(--leading-body) var(--font-sans); color: var(--ink-muted); }
 .cat-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5); margin: 0; padding: 0; list-style: none; }
 .cat-grid li { margin: 0; padding: 0; }
+.cat-fill { display: flex; }
+.cat-fill > * { flex: 1; }
 @media (min-width: 640px) { .cat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 </style>

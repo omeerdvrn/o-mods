@@ -13,8 +13,6 @@ You need Claude Code 2.1.29x or later. Add the o-mods collection once, then inst
 <!-- TODO: content review needed (builder-written, not in Copy) -->
 Replace `heat` with the name of any mod. A mod you install loads in every session. Add `--scope project` to install one for the current repository only.
 
-Already in a session? Run /reload-plugins to load the new mod.
-
 Check your version with `claude --version`. Update with `claude update`.
 
 ## Update a mod
