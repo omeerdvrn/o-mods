@@ -69,6 +69,20 @@ o-mods is a registry of mods for Claude Code: panes, sidebars, bands, status lin
 
 6. Open a pull request with `Closes #<issue>` in its description. CI runs the registry check and builds the site, and the maintainer reviews it.
 
+## Commit messages
+
+Commits and pull request titles follow [Conventional Commits](https://www.conventionalcommits.org): `type(scope): subject`. A check fails a pull request until they do.
+
+- **type:** `feat` (a new mod or feature), `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore` or `revert`.
+- **scope:** optional; the mod's name (`heat`), or `site`, `demo`, `readme`, `registry`.
+- **subject:** lowercase, imperative, no full stop, the whole line 72 characters at most. Add `!` before the colon for a breaking change.
+
+```
+feat(heat): add a cooldown option
+fix(pr-status): read checks from GitLab merge requests
+docs(readme): add the snippets demo
+```
+
 ## Write the README
 
 Each mod's `README.md` becomes its page on the site, as is. Follow the shape the existing mods use:
