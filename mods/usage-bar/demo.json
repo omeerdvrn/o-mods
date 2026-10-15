@@ -37,5 +37,6 @@
     "anthropic-ratelimit-unified-5h-reset": "{{in:2h13m}}",
     "anthropic-ratelimit-unified-7d-utilization": "0.18",
     "anthropic-ratelimit-unified-7d-reset": "{{in:3d10h}}"
-  }
+  },
+  "poster": 13.42
 }

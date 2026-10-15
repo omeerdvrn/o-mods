@@ -1,6 +1,13 @@
 {
   "turns": [
-    { "prompt": "which issue should i pick up next", "steps": [
-      { "text": "ENG-131 is Urgent and due tomorrow: the checkout button stays disabled after a card error is fixed. It's 2 points, so a quick win before you get back to ENG-128 dark mode." } ] }
-  ]
+    {
+      "prompt": "which issue should i pick up next",
+      "steps": [
+        {
+          "text": "ENG-131 is Urgent and due tomorrow: the checkout button stays disabled after a card error is fixed. It's 2 points, so a quick win before you get back to ENG-128 dark mode."
+        }
+      ]
+    }
+  ],
+  "poster": 6.62
 }

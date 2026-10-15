@@ -1,10 +1,33 @@
 {
   "turns": [
-    { "prompt": "fix the failing", "steps": [
-      { "text": "Checking the failed job's log." },
-      { "tool": "Bash", "input": { "command": "gh run view 9137402 --log-failed", "description": "Show the failing job's log" } },
-      { "text": "The test expects a `dark` theme, but `themes` only lists `light`. Registering it." },
-      { "tool": "Bash", "input": { "command": "sed -i '' \"s/\\['light'\\]/['light', 'dark']/\" src/theme.ts && git commit -qam 'fix(ENG-128): register the dark theme' && git push -q", "description": "Fix the theme list, commit and push" } },
-      { "text": "Pushed. CI is running again on PR #42." } ] }
-  ]
+    {
+      "prompt": "fix the failing",
+      "steps": [
+        {
+          "text": "Checking the failed job's log."
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "gh run view 9137402 --log-failed",
+            "description": "Show the failing job's log"
+          }
+        },
+        {
+          "text": "The test expects a `dark` theme, but `themes` only lists `light`. Registering it."
+        },
+        {
+          "tool": "Bash",
+          "input": {
+            "command": "sed -i '' \"s/\\['light'\\]/['light', 'dark']/\" src/theme.ts && git commit -qam 'fix(ENG-128): register the dark theme' && git push -q",
+            "description": "Fix the theme list, commit and push"
+          }
+        },
+        {
+          "text": "Pushed. CI is running again on PR #42."
+        }
+      ]
+    }
+  ],
+  "poster": 12.66
 }
