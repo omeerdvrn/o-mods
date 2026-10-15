@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Title and commit subjects follow type(scope): subject
+      - name: "Title and commit subjects follow type(scope): subject"
         env:
           TITLE: ${{ github.event.pull_request.title }}
           BASE: ${{ github.event.pull_request.base.sha }}
